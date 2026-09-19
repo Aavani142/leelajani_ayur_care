@@ -44,32 +44,32 @@
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
 }
 
-/* CHANGE VALUES FOR THEME — Modern: warm neutrals + refined sage accent */
+/* CHANGE VALUES FOR THEME — Modern: warm neutrals + refined Ayurvedic green */
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.988 0.005 100);
-  --foreground: oklch(0.22 0.012 130);
+  --background: oklch(0.985 0.007 95);
+  --foreground: oklch(0.235 0.014 140);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.012 130);
+  --card-foreground: oklch(0.235 0.014 140);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.012 130);
-  --primary: oklch(0.48 0.075 155);
-  --primary-foreground: oklch(0.985 0.005 120);
-  --secondary: oklch(0.955 0.012 120);
-  --secondary-foreground: oklch(0.3 0.02 150);
-  --muted: oklch(0.958 0.008 110);
-  --muted-foreground: oklch(0.52 0.014 120);
-  --accent: oklch(0.94 0.03 125);
-  --accent-foreground: oklch(0.33 0.045 152);
+  --popover-foreground: oklch(0.235 0.014 140);
+  --primary: oklch(0.46 0.072 152);
+  --primary-foreground: oklch(0.985 0.006 115);
+  --secondary: oklch(0.952 0.013 115);
+  --secondary-foreground: oklch(0.31 0.022 148);
+  --muted: oklch(0.957 0.009 100);
+  --muted-foreground: oklch(0.5 0.016 115);
+  --accent: oklch(0.937 0.028 120);
+  --accent-foreground: oklch(0.34 0.042 150);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.912 0.01 110);
-  --input: oklch(0.912 0.01 110);
-  --ring: oklch(0.48 0.075 155);
-  --chart-1: oklch(0.48 0.075 155);
-  --chart-2: oklch(0.62 0.1 85);
-  --chart-3: oklch(0.55 0.09 190);
-  --chart-4: oklch(0.75 0.09 85);
-  --chart-5: oklch(0.4 0.06 155);
+  --border: oklch(0.905 0.012 105);
+  --input: oklch(0.905 0.012 105);
+  --ring: oklch(0.46 0.072 152);
+  --chart-1: oklch(0.46 0.072 152);
+  --chart-2: oklch(0.63 0.095 82);
+  --chart-3: oklch(0.55 0.085 185);
+  --chart-4: oklch(0.76 0.085 82);
+  --chart-5: oklch(0.4 0.058 152);
   --sidebar: oklch(0.985 0.005 110);
   --sidebar-foreground: oklch(0.22 0.012 130);
   --sidebar-primary: oklch(0.48 0.075 155);
@@ -123,6 +123,9 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
   }
+  ::selection {
+    background: oklch(0.86 0.05 130 / 0.55);
+  }
   button:not([disabled]),
   [role="button"]:not([disabled]) {
     cursor: pointer;
@@ -138,9 +141,28 @@
 
 .hero-veil {
   background:
-    radial-gradient(60rem 30rem at 15% 0%, oklch(0.94 0.035 130 / 0.75), transparent 60%),
-    radial-gradient(50rem 26rem at 90% 10%, oklch(0.93 0.04 95 / 0.5), transparent 60%),
-    linear-gradient(180deg, oklch(0.985 0.006 110 / 0.6), transparent 40%);
+    radial-gradient(60rem 30rem at 12% -5%, oklch(0.93 0.038 128 / 0.6), transparent 60%),
+    radial-gradient(46rem 24rem at 92% 8%, oklch(0.93 0.038 88 / 0.42), transparent 60%),
+    linear-gradient(180deg, oklch(0.982 0.008 100 / 0.7), transparent 45%);
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.link-quiet {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+  transition: text-decoration-color 0.2s;
+}
+.link-quiet:hover {
+  text-decoration-color: currentColor;
 }
 
 .grain::after {
