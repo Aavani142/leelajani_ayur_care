@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowRight,
   Clock,
   Leaf,
   Mail,
@@ -73,7 +72,7 @@ const NAV_LINKS = [
 const FAQS = [
   {
     q: "Can Ayurveda cure psoriasis?",
-    a: "Honest answer: no system of medicine can promise that today. Psoriasis is a long-term condition and it can come back, especially under stress or in winter. What Ayurvedic treatment aims for is longer quiet stretches between flares, milder patches, and less dependence on creams just to get through the day. How much improvement is possible varies from person to person — that is what the consultation is for.",
+    a: "No system of medicine can promise that today, and it would be wrong of us to pretend otherwise. Psoriasis is long-term and it can come back, especially under stress or in winter. What treatment aims for is longer quiet stretches between flares, milder patches, and less dependence on creams just to get through the day. How much improvement is possible varies from person to person — that is exactly what the consultation is for.",
   },
   {
     q: "How long before I see a difference?",
@@ -103,13 +102,12 @@ const FAQS = [
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Page-load stagger, used in the hero only. */
 const loadParent: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.14, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
 };
 const loadChild: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 26 },
   show: { opacity: 1, y: 0, transition: { duration: 1, ease: EASE } },
 };
 
@@ -124,7 +122,7 @@ function Reveal({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 26 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-70px" }}
       transition={{ duration: 0.8, delay, ease: EASE }}
@@ -135,7 +133,7 @@ function Reveal({
   );
 }
 
-/** Faint botanical sprig — decoration only, sits behind content. */
+/** One faint botanical line drawing — used once, in the hero. */
 function BotanicalSprig({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -169,38 +167,33 @@ function BotanicalSprig({ className = "" }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Shared pieces                                                       */
+/* Top bar + navigation                                                */
 /* ------------------------------------------------------------------ */
 
-function SectionIntro({
-  eyebrow,
-  title,
-  sub,
-  className = "",
-}: {
-  eyebrow: string;
-  title: ReactNode;
-  sub?: ReactNode;
-  className?: string;
-}) {
+function TopBar() {
   return (
-    <Reveal className={className}>
-      <p className="eyebrow">{eyebrow}</p>
-      <h2 className="font-display mt-2.5 max-w-2xl text-3xl leading-tight font-semibold text-balance sm:text-4xl">
-        {title}
-      </h2>
-      {sub ? (
-        <p className="mt-3.5 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-          {sub}
+    <div className="bg-forest text-primary-foreground/80">
+      <div className="mx-auto flex h-9 max-w-7xl items-center justify-between px-4 text-xs sm:px-6">
+        <p className="hidden sm:block">
+          Kowdiar, Thiruvananthapuram — Ayurvedic care for psoriasis and
+          chronic skin conditions
         </p>
-      ) : null}
-    </Reveal>
+        <p className="sm:hidden">Leelajani Ayur Care</p>
+        <div className="flex items-center gap-5">
+          <span className="hidden items-center gap-1.5 md:flex">
+            <Clock className="size-3" /> Mon–Sat, 7 AM – 7 PM
+          </span>
+          <a
+            href={`tel:${PHONE_TEL}`}
+            className="flex items-center gap-1.5 transition-colors hover:text-primary-foreground"
+          >
+            <Phone className="size-3" /> {PHONE_DISPLAY}
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/* Sections                                                            */
-/* ------------------------------------------------------------------ */
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -217,17 +210,17 @@ function Navbar() {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-background/85 shadow-sm backdrop-blur-lg"
-          : "bg-background/60 backdrop-blur-sm"
+          ? "bg-background/90 shadow-sm backdrop-blur-lg"
+          : "bg-background/70 backdrop-blur-sm"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
-        {/* Logo mark only — the brand anchor, deliberately large */}
-        <a href="#top" aria-label="Leelajani Ayur Care — home" className="group shrink-0">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:h-24 sm:px-6">
+        {/* The full clinic logo, shown large and uncropped — no circle, no ring */}
+        <a href="#top" aria-label="Leelajani Ayur Care — home" className="shrink-0">
           <img
             src={LOGO}
             alt="Leelajani Ayur Care"
-            className="size-14 rounded-full object-cover shadow-sm ring-1 ring-primary/15 transition-all duration-500 group-hover:ring-primary/40 sm:size-16"
+            className="h-12 w-auto object-contain sm:h-[4.25rem]"
           />
         </a>
 
@@ -243,10 +236,10 @@ function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <a
             href={`tel:${PHONE_TEL}`}
-            className="hidden text-sm font-semibold text-primary md:block"
+            className="hidden text-sm font-semibold text-primary xl:block"
           >
             {PHONE_DISPLAY}
           </a>
@@ -255,7 +248,7 @@ function Navbar() {
             className="rounded-none bg-primary px-5 font-medium shadow-none active:scale-[0.98] sm:px-6"
           >
             <a href={WA_BOOK} target="_blank" rel="noopener noreferrer">
-              Consult now
+              Book consultation
             </a>
           </Button>
           <button
@@ -292,6 +285,10 @@ function Navbar() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Hero                                                                */
+/* ------------------------------------------------------------------ */
+
 function Hero() {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -303,14 +300,13 @@ function Hero() {
 
   return (
     <section id="top" className="hero-veil relative overflow-hidden">
-      <BotanicalSprig className="absolute top-24 right-[4%] hidden h-72 w-52 text-primary opacity-[0.13] lg:block" />
+      <BotanicalSprig className="absolute top-24 right-[5%] hidden h-72 w-52 text-primary opacity-[0.12] lg:block" />
       <motion.div
         variants={loadParent}
         initial="hidden"
         animate="show"
-        className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-12 pb-20 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:gap-16 lg:pt-16 lg:pb-24"
+        className="relative mx-auto grid max-w-7xl gap-12 px-4 pt-12 pb-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20 lg:pt-14 lg:pb-24"
       >
-        {/* Copy */}
         <div>
           <motion.div variants={loadChild}>
             <p className="flex items-center gap-2 text-[13px] font-semibold tracking-[0.08em] text-primary uppercase">
@@ -336,7 +332,7 @@ function Hero() {
             patches.
           </motion.p>
 
-          <motion.div variants={loadChild} className="mt-9 flex flex-wrap items-center gap-4">
+          <motion.div variants={loadChild} className="mt-9 flex flex-wrap items-center gap-5">
             <Button
               asChild
               size="lg"
@@ -354,34 +350,32 @@ function Hero() {
             </a>
           </motion.div>
 
-          <motion.p
-            variants={loadChild}
-            className="mt-10 max-w-sm text-[13px] leading-relaxed text-muted-foreground"
-          >
-            Consultations in person and on video · Mon–Sat, 7 AM – 7 PM
-          </motion.p>
+          <motion.div variants={loadChild} className="mt-12 max-w-sm">
+            <div className="h-px w-16 bg-primary/40" />
+            <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
+              In person at the Kowdiar clinic, or by video call — medicines
+              can be dispatched to your address.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Doctor photograph — real asset, arch frame, gentle parallax */}
+        {/* The doctor's photograph, presented plainly and professionally */}
         <motion.div variants={loadChild} className="mx-auto w-full max-w-sm lg:max-w-none">
-          <div ref={ref} className="group relative">
-            <div
-              aria-hidden
-              className="absolute inset-0 translate-x-3.5 translate-y-3.5 border border-primary/30"
-            />
-            <div className="relative overflow-hidden rounded-t-[12rem] border border-border/60 shadow-xl shadow-primary/10">
+          <div ref={ref} className="group">
+            <div className="overflow-hidden border border-border/60 shadow-lg shadow-foreground/5">
               <motion.div style={reduce ? undefined : { y }} className="will-change-transform">
                 <img
                   src={DOC_PHOTO}
                   alt="Dr. Anusree Leela, BAMS — Chief Physician, Leelajani Ayur Care"
-                  className="aspect-[4/5] w-full scale-[1.09] object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.14]"
+                  className="aspect-[4/5] w-full scale-[1.08] object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.13]"
                   loading="eager"
                   decoding="async"
                 />
               </motion.div>
             </div>
-            <p className="font-display mt-5 text-center text-sm tracking-wide text-muted-foreground">
-              Dr. Anusree Leela <span className="text-foreground/40">· BAMS, Chief Physician</span>
+            <p className="mt-4 flex items-baseline justify-between text-[13px]">
+              <span className="font-semibold">Dr. Anusree Leela</span>
+              <span className="text-muted-foreground">BAMS · Chief Physician</span>
             </p>
           </div>
         </motion.div>
@@ -390,21 +384,23 @@ function Hero() {
   );
 }
 
-/** Quiet trust strip — hairline-divided, no cards, no icons. */
+/** Thin, quiet strip under the hero — dots, not icons. */
 function TrustStrip() {
   const items = [
-    ["BAMS physician", "Care led by a qualified doctor"],
-    ["In-person & online", "Video consults across Kerala"],
-    ["Personalised plans", "Diet, lifestyle, herbal support"],
-    ["Follow-up reviews", "The plan adjusts as skin responds"],
+    "Care led by a BAMS physician",
+    "In-person & online consultations",
+    "Plans built diet, routine and history",
+    "Regular follow-up reviews",
   ];
   return (
     <section className="border-y border-border/60 bg-accent/25">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-6 px-4 py-7 sm:px-6 lg:grid-cols-4 lg:divide-x lg:divide-border/60">
-        {items.map(([t, d], i) => (
-          <Reveal key={t} delay={i * 0.06} className={i > 0 ? "lg:pl-8" : ""}>
-            <p className="text-sm font-semibold tracking-tight">{t}</p>
-            <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{d}</p>
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2.5 px-4 py-5 sm:px-6">
+        {items.map((t, i) => (
+          <Reveal key={t} delay={i * 0.05}>
+            <p className="flex items-center gap-2.5 text-[13px] font-medium text-foreground/80">
+              <span className="size-1 rounded-full bg-primary/70" />
+              {t}
+            </p>
           </Reveal>
         ))}
       </div>
@@ -412,49 +408,53 @@ function TrustStrip() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Psoriasis — the one sticky-column section                           */
+/* ------------------------------------------------------------------ */
+
 function Psoriasis() {
   return (
     <section id="psoriasis" className="scroll-mt-28 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
-          {/* Sticky intro column */}
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionIntro
-              eyebrow="Understanding psoriasis"
-              title={
-                <>
-                  A chronic condition that follows{" "}
-                  <em className="font-medium text-primary italic">cycles</em>
-                </>
-              }
-              sub="Psoriasis is an inflammatory skin condition — raised, scaly patches that commonly appear on the scalp, elbows, knees and lower back, often with itching and dryness."
-            />
-            <BotanicalSprig className="mt-12 hidden h-44 w-32 text-primary opacity-[0.15] lg:block" />
+        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div className="lg:sticky lg:top-32 lg:self-start">
+            <Reveal>
+              <p className="eyebrow">Understanding psoriasis</p>
+              <h2 className="font-display mt-2.5 max-w-md text-3xl leading-tight font-semibold text-balance sm:text-4xl">
+                A chronic condition that runs in cycles
+              </h2>
+              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+                Psoriasis is an inflammatory skin condition — raised, scaly
+                patches that commonly appear on the scalp, elbows, knees and
+                lower back, often with itching and dryness.
+              </p>
+            </Reveal>
           </div>
 
-          {/* Right column: prose then triggers */}
           <div>
             <Reveal>
               <div className="space-y-4 text-[15px] leading-relaxed text-foreground/85">
                 <p>
-                  It tends to run in cycles: quiet periods, then a flare. In
-                  Ayurvedic practice, psoriasis is understood as an imbalance
-                  involving the doshas and the skin tissue — but the practical
-                  question is the same whichever way you describe it:{" "}
+                  Quiet periods, then a flare. In Ayurvedic practice,
+                  psoriasis is understood as an imbalance involving the doshas
+                  and the skin tissue — but the practical question is the same
+                  whichever way you describe it:{" "}
                   <em>what is setting this particular patient's flares off?</em>
                 </p>
                 <p>
                   Psoriasis is not contagious and not caused by poor hygiene.
-                  It is, however, stubborn — which is exactly why a plan built
-                  for one person rarely works when copied for another.
+                  It is, however, stubborn — which is why a plan built for one
+                  person rarely works when copied for another.
                 </p>
               </div>
             </Reveal>
 
-            <Reveal delay={0.08}>
-              <p className="eyebrow mt-12">What commonly triggers flares</p>
+            <Reveal delay={0.06}>
+              <p className="mt-12 text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+                What commonly sets flares off
+              </p>
             </Reveal>
-            <div className="mt-2 divide-y divide-border/70 border-y border-border/70">
+            <div className="mt-1 divide-y divide-border/70 border-y border-border/70">
               {[
                 {
                   icon: Moon,
@@ -469,7 +469,7 @@ function Psoriasis() {
                 {
                   icon: Sun,
                   t: "Season and weather",
-                  d: "Flares are common in winter and sudden weather changes. Plans are adjusted seasonally, not fixed once and forgotten.",
+                  d: "Flares are common in winter and with sudden weather changes. Plans are adjusted seasonally, not fixed once and forgotten.",
                 },
                 {
                   icon: Leaf,
@@ -495,110 +495,130 @@ function Psoriasis() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Doctor — quiet text section with a note in her own words            */
+/* ------------------------------------------------------------------ */
+
 function Doctor() {
   return (
-    <section id="about" className="relative scroll-mt-28 overflow-hidden bg-accent/25 py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <div>
-            <SectionIntro
-              eyebrow="Your doctor"
-              title={
-                <>
-                  Consultations that take the{" "}
-                  <em className="font-medium text-primary italic">time they need</em>
-                </>
-              }
-              sub="Dr. Anusree Leela, BAMS — Chief Physician at Leelajani Ayur Care. Skin conditions don't reveal their triggers in ten minutes, and her consultations don't pretend otherwise."
-            />
-            <div className="mt-8 space-y-4 text-[15px] leading-relaxed text-foreground/85">
-              <Reveal>
-                <p>
-                  Each treatment is built from the patient's own history — flare
-                  pattern, digestion, body constitution, and the realities of
-                  daily life. Panchakarma is used, but only where the clinical
-                  picture calls for it.
-                </p>
-              </Reveal>
-              <Reveal delay={0.06}>
-                <p>
-                  Her practice covers chronic skin conditions, lifestyle
-                  disorders and general Ayurvedic medicine, with consultations
-                  at the Kowdiar clinic and online for patients across Kerala
-                  and beyond.
-                </p>
-              </Reveal>
-            </div>
+    <section id="about" className="scroll-mt-28 border-t border-border/60 py-20 lg:py-28">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <Reveal>
+          <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+            Dr. Anusree Leela
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            BAMS · Chief Physician, Leelajani Ayur Care, Kowdiar
+          </p>
+        </Reveal>
 
-            {/* What the first consult covers — lined list, not cards */}
-            <Reveal delay={0.1}>
-              <div className="mt-10 border-t border-border/70 pt-2">
-                {[
-                  ["01", "A detailed history", "When it started, what has helped, what hasn't — creams, tablets, home remedies, everything."],
-                  ["02", "Your daily routine", "Food, sleep, work, stress. Not a checklist — a conversation about how a normal day actually goes."],
-                  ["03", "Digestion and diet", "Appetite, bowel habit, what you eat. In Ayurveda this sits at the centre of skin health."],
-                  ["04", "The plan, written down", "Formulations, diet guidance, skin care, and what follow-up will look like."],
-                ].map(([n, t, d]) => (
-                  <div key={n} className="flex gap-6 border-b border-border/70 py-4">
-                    <span className="font-display shrink-0 text-sm font-semibold text-primary/60">{n}</span>
-                    <div>
-                      <h3 className="text-sm font-semibold tracking-tight">{t}</h3>
-                      <p className="mt-0.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">{d}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-
-          {/* Booking panel */}
-          <Reveal delay={0.12} className="lg:pt-10">
-            <div className="band-forest relative overflow-hidden p-8 text-primary-foreground sm:p-10">
-              <BotanicalSprig className="absolute -right-4 -bottom-6 h-52 w-36 text-primary-foreground opacity-20" />
-              <div className="relative">
-                <p className="text-[11px] font-semibold tracking-[0.16em] text-primary-foreground/60 uppercase">
-                  Book a consultation
-                </p>
-                <h3 className="font-display mt-3 text-2xl leading-snug font-semibold tracking-tight text-balance sm:text-[1.7rem]">
-                  Begin with a conversation, not a prescription
-                </h3>
-                <p className="mt-3.5 max-w-md text-sm leading-relaxed text-primary-foreground/75">
-                  Send a WhatsApp message with your concern, or call during
-                  clinic hours. Video and in-person slots are available
-                  Mon–Sat, 7 AM – 7 PM.
-                </p>
-                <div className="mt-8 space-y-3">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="h-11 w-full rounded-none bg-primary-foreground px-6 text-sm font-semibold text-primary hover:bg-primary-foreground/90 active:scale-[0.98]"
-                  >
-                    <a href={WA_BOOK} target="_blank" rel="noopener noreferrer">
-                      <MessageCircle className="size-4" /> Book on WhatsApp
-                    </a>
-                  </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="h-11 w-full rounded-none border-primary-foreground/35 bg-transparent px-6 text-sm font-semibold text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground active:scale-[0.98]"
-                  >
-                    <a href={`tel:${PHONE_TEL}`}>
-                      <Phone className="size-4" /> {PHONE_DISPLAY}
-                    </a>
-                  </Button>
-                </div>
-                <p className="mt-6 flex items-center gap-2 text-xs text-primary-foreground/60">
-                  <Clock className="size-3.5" /> First consults are unhurried — keep old prescriptions or reports handy.
-                </p>
-              </div>
-            </div>
+        <div className="mt-9 grid gap-8 md:grid-cols-2">
+          <Reveal>
+            <p className="text-[15px] leading-relaxed text-foreground/85">
+              Each treatment is built from the patient's own history — flare
+              pattern, digestion, body constitution, and the realities of
+              daily life. Panchakarma is used, but only where the clinical
+              picture calls for it.
+            </p>
+          </Reveal>
+          <Reveal delay={0.07}>
+            <p className="text-[15px] leading-relaxed text-foreground/85">
+              Her practice covers chronic skin conditions, lifestyle disorders
+              and general Ayurvedic medicine, with consultations at the
+              Kowdiar clinic and online for patients across Kerala and beyond.
+            </p>
           </Reveal>
         </div>
+
+        <Reveal delay={0.05}>
+          <figure className="mt-14 border-l-2 border-primary/50 pl-6 sm:pl-8">
+            <blockquote className="font-display text-xl leading-relaxed text-foreground/90 sm:text-[1.4rem]">
+              "Skin conditions don't reveal their triggers in ten minutes. My
+              first consultation runs long on purpose — your routine, your
+              digestion, your stress, what you've already tried. Treatment is
+              built from all of it, and adjusted as your skin responds."
+            </blockquote>
+            <figcaption className="mt-4 text-sm text-muted-foreground">
+              — Dr. Anusree Leela
+            </figcaption>
+          </figure>
+        </Reveal>
+
+        <Reveal delay={0.05}>
+          <p className="mt-16 text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+            The first consultation covers
+          </p>
+          <div className="mt-3 grid gap-x-14 border-t border-border/70 sm:grid-cols-2">
+            {[
+              ["A detailed history", "When it started, what has helped, what hasn't — creams, tablets, home remedies, everything."],
+              ["Your daily routine", "Food, sleep, work, stress. Not a checklist — a conversation about how a normal day actually goes."],
+              ["Digestion and diet", "Appetite, bowel habit, what you eat. In Ayurveda this sits at the centre of skin health."],
+              ["The plan, written down", "Formulations, diet guidance, skin care, and what follow-up will look like."],
+            ].map(([t, d]) => (
+              <div key={t} className="border-b border-border/70 py-4">
+                <h3 className="text-[15px] font-semibold tracking-tight">{t}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{d}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Full-width CTA band                                                 */
+/* ------------------------------------------------------------------ */
+
+function CtaBand() {
+  return (
+    <section className="band-forest text-primary-foreground">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-20">
+        <Reveal>
+          <h2 className="font-display max-w-lg text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">
+            Begin with a conversation, not a prescription
+          </h2>
+          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-primary-foreground/75">
+            Send your old reports, or simply describe your symptoms. The
+            clinic team will explain what a first consultation involves and
+            fit you in — online or at Kowdiar.
+          </p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+            <Button
+              asChild
+              size="lg"
+              className="h-12 rounded-none bg-primary-foreground px-7 text-sm font-semibold text-primary hover:bg-primary-foreground/90 active:scale-[0.98]"
+            >
+              <a href={WA_BOOK} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="size-4" /> Book on WhatsApp
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 rounded-none border-primary-foreground/35 bg-transparent px-7 text-sm font-semibold text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground active:scale-[0.98]"
+            >
+              <a href={`tel:${PHONE_TEL}`}>
+                <Phone className="size-4" /> {PHONE_DISPLAY}
+              </a>
+            </Button>
+          </div>
+          <p className="mt-5 flex items-center gap-2 text-xs text-primary-foreground/60 lg:justify-end">
+            <Clock className="size-3.5" /> Mon–Sat, 7 AM – 7 PM · Sundays closed
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Process — the one numbered section                                  */
+/* ------------------------------------------------------------------ */
 
 function Process() {
   const steps = [
@@ -627,114 +647,120 @@ function Process() {
   return (
     <section id="consultation" className="scroll-mt-28 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionIntro
-              eyebrow="How care works"
-              title={
-                <>
-                  From first message to{" "}
-                  <em className="font-medium text-primary italic">steady skin</em>
-                </>
-              }
-              sub="Care doesn't end when medicines are handed over. Regular follow-up reviews are part of the plan — that's how it gets adjusted as your skin responds."
-            />
-          </div>
-          <ol>
-            {steps.map((s, i) => (
-              <Reveal key={s.t} delay={i * 0.05}>
-                <li className="group flex gap-6 border-b border-border/70 py-6 first:pt-0 sm:gap-8">
-                  <span
-                    className={`font-display shrink-0 text-2xl leading-none font-semibold transition-colors duration-300 sm:text-3xl ${
-                      i === steps.length - 1 ? "text-primary" : "text-foreground/20 group-hover:text-primary/50"
-                    }`}
-                  >
-                    0{i + 1}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-xl font-semibold tracking-tight">{s.t}</h3>
-                    <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-muted-foreground">{s.d}</p>
-                  </div>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
+        <Reveal className="max-w-2xl">
+          <h2 className="font-display text-3xl leading-tight font-semibold text-balance sm:text-4xl">
+            What happens after you write in
+          </h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+            Care doesn't end when medicines are handed over. Reviews are part
+            of the plan — that's how it gets adjusted as your skin responds.
+          </p>
+        </Reveal>
+
+        <ol className="mt-12 max-w-3xl">
+          {steps.map((s, i) => (
+            <Reveal key={s.t} delay={i * 0.05}>
+              <li className="group flex gap-6 border-b border-border/70 py-6 first:pt-0 sm:gap-8">
+                <span
+                  className={`font-display shrink-0 text-2xl leading-none font-semibold transition-colors duration-300 sm:text-3xl ${
+                    i === steps.length - 1
+                      ? "text-primary"
+                      : "text-foreground/20 group-hover:text-primary/50"
+                  }`}
+                >
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-semibold tracking-tight">{s.t}</h3>
+                  <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+                </div>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
       </div>
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* FAQ                                                                 */
+/* ------------------------------------------------------------------ */
 
 function Faqs() {
   return (
     <section className="border-y border-border/60 bg-accent/25 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionIntro
-              eyebrow="Questions patients ask"
-              title="Before you decide"
-              sub="Straight answers to the things people usually want to know before starting treatment."
-            />
-            <Reveal delay={0.1}>
-              <p className="mt-6 text-sm text-muted-foreground">
-                Question not covered here?{" "}
-                <a
-                  href={WA_MAIN}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-quiet font-medium text-primary"
-                >
-                  Ask the clinic on WhatsApp
-                </a>
-                .
-              </p>
-            </Reveal>
-          </div>
-          <Reveal delay={0.05}>
-            <Accordion
-              type="single"
-              collapsible
-              className="border-t border-border/70 [&_[data-slot=accordion-item]]:border-b [&_[data-slot=accordion-item]]:border-border/70"
+        <Reveal className="max-w-xl">
+          <p className="eyebrow">Questions patients ask</p>
+          <h2 className="font-display mt-2.5 text-3xl leading-tight font-semibold sm:text-4xl">
+            Before you decide
+          </h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+            Straight answers to the things people usually want to know before
+            starting treatment.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.06} className="mt-10 max-w-3xl">
+          <Accordion
+            type="single"
+            collapsible
+            className="border-t border-border/70 [&_[data-slot=accordion-item]]:border-b [&_[data-slot=accordion-item]]:border-border/70"
+          >
+            {FAQS.map((f, i) => (
+              <AccordionItem key={f.q} value={`item-${i}`} className="bg-transparent">
+                <AccordionTrigger className="py-5 text-left text-[15px] font-semibold hover:no-underline hover:text-primary">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <p className="mt-7 text-sm text-muted-foreground">
+            Question not covered here?{" "}
+            <a
+              href={WA_MAIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-quiet font-medium text-primary"
             >
-              {FAQS.map((f, i) => (
-                <AccordionItem key={f.q} value={`item-${i}`} className="bg-transparent">
-                  <AccordionTrigger className="py-5 text-left text-[15px] font-semibold hover:no-underline hover:text-primary">
-                    {f.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                    {f.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Reveal>
-        </div>
+              Ask the clinic on WhatsApp
+            </a>
+            .
+          </p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Contact                                                             */
+/* ------------------------------------------------------------------ */
+
 function Contact() {
   return (
     <section id="contact" className="scroll-mt-28 py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-[1fr_0.95fr] lg:gap-16">
+        <div className="grid gap-14 lg:grid-cols-[1fr_0.85fr] lg:gap-20">
           {/* Enquiry form → WhatsApp */}
           <div>
-            <SectionIntro
-              eyebrow="Patient enquiry"
-              title={
-                <>
-                  Send your{" "}
-                  <em className="font-medium text-primary italic">requirement</em>
-                </>
-              }
-              sub="Fill this in and it opens in WhatsApp, addressed to the clinic team. Nothing is stored on this website — the conversation stays between you and the clinic."
-            />
+            <Reveal className="max-w-xl">
+              <h2 className="font-display text-3xl leading-tight font-semibold text-balance sm:text-4xl">
+                Tell us about your skin
+              </h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+                Fill this in and it opens in WhatsApp, addressed to the clinic
+                team. Nothing is stored on this website — the conversation
+                stays between you and the clinic.
+              </p>
+            </Reveal>
             <Reveal delay={0.08}>
               <form
-                className="mt-9 space-y-5"
+                className="mt-10 space-y-5"
                 onSubmit={(e) => {
                   e.preventDefault();
                   const fd = new FormData(e.currentTarget);
@@ -821,7 +847,7 @@ function Contact() {
           </div>
 
           {/* Clinic details */}
-          <div className="lg:pl-6">
+          <div className="lg:pt-2">
             <Reveal delay={0.1}>
               <div className="space-y-7">
                 {[
@@ -830,9 +856,9 @@ function Contact() {
                     label: "Clinic",
                     body: (
                       <>
-                        {ADDRESS.split(", Near")[0]}
+                        Leelajani Ayur Care
                         <span className="block text-sm text-muted-foreground">
-                          Near Narmada Shopping Complex · Pin 695003
+                          Near Narmada Shopping Complex, Kowdiar · Thiruvananthapuram, Kerala 695003
                         </span>
                       </>
                     ),
@@ -910,22 +936,26 @@ function Contact() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Footer                                                              */
+/* ------------------------------------------------------------------ */
+
 function Footer() {
   return (
     <footer className="band-forest text-primary-foreground">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:gap-12">
           <div>
-            <a href="#top" aria-label="Leelajani Ayur Care — back to top" className="inline-block">
+            <a href="#top" aria-label="Leelajani Ayur Care — back to top" className="inline-block bg-card p-3">
               <img
                 src={LOGO}
                 alt="Leelajani Ayur Care"
-                className="size-16 rounded-full object-cover ring-1 ring-primary-foreground/20"
+                className="h-11 w-auto object-contain"
               />
             </a>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-primary-foreground/70">
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-primary-foreground/70">
               Ayurvedic care for psoriasis and chronic skin conditions, led by
-              Dr. Anusree Leela, BAMS. Kowdiar, Thiruvananthapuram — in-person
+              Dr. Anusree Leela, BAMS. Kowdiar, Thiruvananthapuram — in person
               and online.
             </p>
           </div>
@@ -987,7 +1017,7 @@ function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with the clinic on WhatsApp"
-      className="fixed right-5 bottom-5 z-50 flex size-13 items-center justify-center rounded-full bg-[oklch(0.62_0.15_155)] text-white shadow-xl shadow-primary/25 transition-transform hover:scale-105 active:scale-95"
+      className="fixed right-5 bottom-5 z-50 flex size-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-xl transition-all hover:scale-105 hover:bg-[#1fb857] active:scale-95"
     >
       <MessageCircle className="size-6" />
     </a>
@@ -1001,12 +1031,14 @@ function FloatingWhatsApp() {
 export default function Landing() {
   return (
     <div className="min-h-screen">
+      <TopBar />
       <Navbar />
       <main>
         <Hero />
         <TrustStrip />
         <Psoriasis />
         <Doctor />
+        <CtaBand />
         <Process />
         <Faqs />
         <Contact />
