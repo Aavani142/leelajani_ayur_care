@@ -142,14 +142,15 @@
 .font-display {
   font-family: var(--font-serif);
   font-optical-sizing: auto;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .hero-veil {
-  background:
-    radial-gradient(60rem 30rem at 12% -5%, oklch(0.93 0.038 128 / 0.6), transparent 60%),
-    radial-gradient(46rem 24rem at 92% 8%, oklch(0.93 0.038 88 / 0.42), transparent 60%),
-    linear-gradient(180deg, oklch(0.982 0.008 100 / 0.7), transparent 45%);
+  background: radial-gradient(
+    50rem 26rem at 8% -8%,
+    oklch(0.94 0.032 128 / 0.5),
+    transparent 62%
+  );
 }
 
 .eyebrow {
@@ -203,6 +204,13 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Accessible keyboard focus without shouting at mouse users */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 1px;
 }
 
 @media (prefers-reduced-motion: reduce) {
