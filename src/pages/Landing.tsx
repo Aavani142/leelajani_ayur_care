@@ -13,6 +13,8 @@ import {
 
 const LOGO = "/assets/Leelajani-Logo.png";
 const DOC_PHOTO = "/assets/Le.webp";
+/* Kerala Ayurveda setting, © Srijinfrancis, CC BY-SA 4.0 via Wikimedia Commons */
+const AMBIENCE = "/assets/ambience.jpg";
 
 /* ------------------------------------------------------------------ */
 /* Contact and facts (from leelajani.in)                               */
@@ -245,7 +247,7 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Editorial still life: herbs, clay pot, light, appointment card */}
+        {/* Real Kerala Ayurveda setting (© Srijinfrancis, CC BY-SA 4.0), with the booking card */}
         <div className="relative px-6 pb-16 sm:pb-20 lg:py-20 lg:pl-0">
           <motion.div
             style={{ y: drift }}
@@ -259,45 +261,18 @@ function Hero() {
               className="absolute -left-4 -top-4 h-full w-full border border-primary/30"
             />
             <div className="group relative aspect-[4/5] overflow-hidden bg-accent">
-              {/* soft daylight wash */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_0%,oklch(0.97_0.02_100/0.9),transparent_55%)]"
+              <img
+                src={AMBIENCE}
+                alt="A calm Ayurvedic treatment space in Kerala with natural light and wooden interiors"
+                className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
               />
-              <Sprig className="absolute -right-5 top-6 h-44 w-auto -scale-x-100 text-[#647052]/40" />
-              <Sprig className="absolute -left-6 bottom-8 h-36 w-auto rotate-[24deg] text-[#647052]/30" />
-
-              {/* clay pot */}
               <div
                 aria-hidden="true"
-                className="absolute bottom-[22%] left-[12%] h-28 w-36 rounded-[46%_54%_50%_50%/58%_58%_42%_42%] bg-[#A78B6F]"
-              >
-                <div className="absolute inset-x-3 top-2 h-5 rounded-[50%] bg-[#8F7355]/70" />
-                <div className="absolute bottom-4 left-4 h-10 w-16 rounded-[50%] bg-[#8F7355]/35 blur-[2px]" />
-              </div>
-
-              {/* brass bowl with dried herbs */}
-              <div
-                aria-hidden="true"
-                className="absolute bottom-[18%] right-[14%] h-16 w-24 rounded-[50%] bg-[#B08D57]"
-              >
-                <div className="absolute inset-2 rounded-[50%] bg-[#9A7A49]" />
-                <div className="absolute -top-2 left-1/2 h-5 w-16 -translate-x-1/2 rounded-[50%] bg-[#7C7A54]" />
-                <div className="absolute -top-4 left-6 h-6 w-px rotate-[18deg] bg-[#6B6A48]" />
-                <div className="absolute -top-3 right-7 h-5 w-px -rotate-[14deg] bg-[#6B6A48]" />
-              </div>
-
-              {/* folded cotton cloth */}
-              <div
-                aria-hidden="true"
-                className="absolute bottom-[14%] left-[38%] h-10 w-28 rounded-[2px] bg-[#E5DECB]"
-              >
-                <div className="absolute inset-x-2 top-2 h-px bg-[#CFC5AC]" />
-                <div className="absolute inset-x-2 top-4 h-px bg-[#CFC5AC]" />
-              </div>
+                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,oklch(0.36_0.048_125/0.55)_100%)]"
+              />
 
               {/* the appointment card, with real clinic facts */}
-              <div className="absolute left-1/2 top-[14%] w-[78%] -translate-x-1/2 border border-border bg-cream p-5 shadow-[0_18px_44px_-20px_oklch(0.35_0.05_150/0.35)]">
+              <div className="absolute inset-x-5 bottom-5 border border-border bg-cream p-5">
                 <p className="eyebrow">Consultation</p>
                 <p className="font-display mt-2 text-xl leading-snug text-foreground">
                   Dr. Anusree Leela, BAMS
@@ -351,6 +326,162 @@ function TrustStrip() {
           </div>
         ))}
       </div>
+    </section>
+  );
+}
+
+/* ================================================================== */
+/* 02b BOOKING FORM (Kappiness style appointment request)             */
+/* ================================================================== */
+
+function BookingForm() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [service, setService] = useState("");
+  const [time, setTime] = useState("");
+  const [sent, setSent] = useState(false);
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    track("booking_form_submit");
+    const lines = ["Appointment request", "Name: " + name, "Phone: " + phone];
+    if (service) lines.push("Service: " + service);
+    if (time) lines.push("Preferred day or time: " + time);
+    window.open(wa(lines.join("\n")), "_blank");
+    setSent(true);
+  };
+
+  const field =
+    "w-full rounded-[3px] border border-input bg-cream px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/55 outline-none transition-colors duration-300 hover:border-foreground/30 focus:border-primary";
+
+  if (sent) {
+    return (
+      <section className="border-y border-border bg-secondary py-20 lg:py-24">
+        <div className="mx-auto max-w-2xl px-6">
+          <div className="border border-border bg-card p-8 text-center sm:p-12">
+            <p className="font-display text-[clamp(1.8rem,3.4vw,2.4rem)] text-foreground">
+              Thank you. Your request has been received.
+            </p>
+            <p className="mx-auto mt-4 max-w-md text-[0.92rem] leading-relaxed text-muted-foreground">
+              Our team will call you back to confirm your slot. You can also
+              continue the conversation on WhatsApp right away.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <a
+                href={WA_MAIN}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("booking_success_whatsapp_click")}
+                className={btnPrimary}
+              >
+                Continue on WhatsApp
+              </a>
+              <a href={"tel:" + PHONE_TEL} onClick={() => track("booking_success_call_click")} className={btnOutline}>
+                Call {PHONE_DISPLAY}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="book" className="scroll-mt-24 border-b border-border bg-secondary py-20 lg:py-28">
+      <Reveal className="mx-auto max-w-3xl px-6">
+        <div className="border border-border bg-card p-7 sm:p-10">
+          <h2 className="font-display text-center text-[clamp(1.9rem,3.8vw,2.7rem)] leading-tight text-foreground">
+            Book your appointment in Trivandrum
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-center text-[0.95rem] leading-relaxed text-muted-foreground">
+            Consultations available Monday to Saturday, 7 AM to 7 PM. We
+            respond within working hours, usually much sooner.
+          </p>
+
+          <form onSubmit={submit} className="mt-8">
+            <label className="block">
+              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                Your name
+              </span>
+              <input
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={field + " mt-2"}
+                placeholder="e.g. Rahul Sharma"
+              />
+            </label>
+
+            <label className="mt-5 block">
+              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                Phone number
+              </span>
+              <input
+                required
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className={field + " mt-2"}
+                placeholder="e.g. +91 98470 12345"
+              />
+            </label>
+
+            <div className="mt-5 grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Service needed (optional)
+                </span>
+                <select
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23647052%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
+                >
+                  <option value="">Select a service…</option>
+                  <option>Psoriasis consultation</option>
+                  <option>Online video consultation</option>
+                  <option>Follow up review</option>
+                </select>
+              </label>
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Preferred day or time (optional)
+                </span>
+                <select
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23647052%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
+                >
+                  <option value="">Select preferred time…</option>
+                  <option>Morning, 7 AM to 12 PM</option>
+                  <option>Afternoon, 12 PM to 4 PM</option>
+                  <option>Evening, 4 PM to 7 PM</option>
+                  <option>Any time</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <button type="submit" className={btnPrimary + " flex-1"}>
+                Request my appointment
+              </button>
+              <a
+                href={WA_MAIN}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("booking_whatsapp_click")}
+                className={btnOutline + " flex-1"}
+              >
+                Chat to book via WhatsApp
+              </a>
+            </div>
+
+            <p className="mt-6 text-center text-[0.8rem] leading-relaxed text-muted-foreground">
+              Our team will call you to confirm your slot. Your information is
+              completely confidential and is not stored on this website.
+            </p>
+          </form>
+        </div>
+      </Reveal>
     </section>
   );
 }
@@ -499,6 +630,7 @@ function Understanding() {
 /* ================================================================== */
 /* 05 EARLY ENQUIRY (sage background)                                 */
 /* ================================================================== */
+/* The detailed booking form now lives in section 02b.                */
 
 function EnquiryForm() {
   const [name, setName] = useState("");
@@ -1060,6 +1192,10 @@ function Footer() {
           © 2026 Leelajani Ayur Care. Information on this page is for general
           awareness and is not a substitute for medical advice.
         </div>
+        <p className="mt-2 text-[0.7rem] text-cream/25">
+          Ambience photograph by Srijinfrancis, via Wikimedia Commons, CC BY SA
+          4.0.
+        </p>
       </div>
     </footer>
   );
@@ -1103,6 +1239,7 @@ export default function Landing() {
       <main>
         <Hero />
         <TrustStrip />
+        <BookingForm />
         <Doctor />
         <Understanding />
         <EarlyEnquiry />
