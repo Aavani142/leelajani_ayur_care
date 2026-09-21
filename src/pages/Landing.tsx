@@ -13,8 +13,8 @@ import {
 
 const LOGO = "/assets/Leelajani-Logo.png";
 const DOC_PHOTO = "/assets/Le.webp";
-/* Kerala Ayurveda setting, © Srijinfrancis, CC BY-SA 4.0 via Wikimedia Commons */
-const AMBIENCE = "/assets/ambience.jpg";
+/* Reception of a working Ayurvedic clinic in Kerala, © SalmanVattoli, CC BY-SA 4.0 via Wikimedia Commons */
+const CLINIC = "/assets/clinic-reception.jpg";
 /* Traditional Ayurvedic therapy table (droni), © Gabi, CC BY 2.0 via Wikimedia Commons */
 const THERAPY = "/assets/ayurveda-therapy.jpg";
 
@@ -240,7 +240,7 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Real Kerala Ayurveda setting (© Srijinfrancis, CC BY-SA 4.0), with the booking card */}
+        {/* Reception of a real Kerala Ayurvedic clinic (© SalmanVattoli, CC BY-SA 4.0), with the appointment card */}
         <div className="relative px-6 pb-16 sm:pb-20 lg:py-20 lg:pl-0">
           <motion.div
             style={{ y: drift }}
@@ -255,8 +255,8 @@ function Hero() {
             />
             <div className="group relative aspect-[4/5] overflow-hidden bg-accent">
               <img
-                src={AMBIENCE}
-                alt="A calm Ayurvedic treatment space in Kerala with natural light and wooden interiors"
+                src={CLINIC}
+                alt="The reception and consultation desk of an established Ayurvedic clinic in Kerala, in natural daylight"
                 className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
               />
               <div
@@ -279,7 +279,7 @@ function Hero() {
             </div>
 
             <p className="mt-4 text-center text-[0.78rem] text-muted-foreground/80">
-              A calm room, an unhurried conversation. That is where care begins.
+              A working clinic room, an unhurried conversation. That is where care begins.
             </p>
           </motion.div>
         </div>
@@ -1133,8 +1133,8 @@ function Footer() {
           awareness and is not a substitute for medical advice.
         </div>
         <p className="mt-2 text-[0.7rem] text-cream/25">
-          Ambience photograph by Srijinfrancis, CC BY SA 4.0. Therapy table
-          photograph by Gabi, CC BY 2.0. Both via Wikimedia Commons.
+          Clinic reception photograph by SalmanVattoli, CC BY SA 4.0. Therapy
+          table photograph by Gabi, CC BY 2.0. Both via Wikimedia Commons.
         </p>
       </div>
     </footer>
