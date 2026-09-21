@@ -15,6 +15,8 @@ const LOGO = "/assets/Leelajani-Logo.png";
 const DOC_PHOTO = "/assets/Le.webp";
 /* Kerala Ayurveda setting, © Srijinfrancis, CC BY-SA 4.0 via Wikimedia Commons */
 const AMBIENCE = "/assets/ambience.jpg";
+/* Traditional Ayurvedic therapy table (droni), © Gabi, CC BY 2.0 via Wikimedia Commons */
+const THERAPY = "/assets/ayurveda-therapy.jpg";
 
 /* ------------------------------------------------------------------ */
 /* Contact and facts (from leelajani.in)                               */
@@ -602,24 +604,42 @@ function Understanding() {
 
         {/* quiet typographic panel instead of a staged photo */}
         <Reveal className="lg:pl-8">
-          <div className="relative border border-border bg-cream p-8 sm:p-10">
-            <Sprig className="absolute -right-4 -top-4 h-28 w-auto text-primary/20" />
-            <p className="eyebrow">During the first consultation</p>
-            <ul className="mt-6 divide-y divide-border">
-              {[
-                ["Your symptoms", "Where they appear, how they change, what triggers them."],
-                ["Your history", "How long, what helped, what did not."],
-                ["Your routine", "Food, sleep, stress and the pace of your day."],
-                ["Your questions", "What you have been worrying about, in your own words."],
-              ].map(([t, d]) => (
-                <li key={t} className="py-4">
-                  <p className="text-[0.8rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                    {t}
-                  </p>
-                  <p className="mt-1 text-[0.88rem] text-muted-foreground">{d}</p>
-                </li>
-              ))}
-            </ul>
+          <div className="relative border border-border bg-cream">
+            <div className="group relative overflow-hidden">
+              <img
+                src={THERAPY}
+                alt="A traditional wooden Ayurvedic therapy table in a calm treatment room"
+                loading="lazy"
+                className="aspect-[3/2] w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,oklch(0.36_0.048_125/0.45)_100%)]"
+              />
+              <p className="absolute bottom-4 left-5 right-5 text-[0.8rem] leading-relaxed text-cream">
+                Classical therapies, when advised, are selected by the doctor
+                for your condition and never as a fixed package.
+              </p>
+            </div>
+            <div className="p-8 sm:p-10">
+              <Sprig className="pointer-events-none absolute right-6 top-6 h-24 w-auto text-primary/20" />
+              <p className="eyebrow">During the first consultation</p>
+              <ul className="mt-6 divide-y divide-border">
+                {[
+                  ["Your symptoms", "Where they appear, how they change, what triggers them."],
+                  ["Your history", "How long, what helped, what did not."],
+                  ["Your routine", "Food, sleep, stress and the pace of your day."],
+                  ["Your questions", "What you have been worrying about, in your own words."],
+                ].map(([t, d]) => (
+                  <li key={t} className="py-4">
+                    <p className="text-[0.8rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                      {t}
+                    </p>
+                    <p className="mt-1 text-[0.88rem] text-muted-foreground">{d}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </Reveal>
       </div>
@@ -1193,8 +1213,8 @@ function Footer() {
           awareness and is not a substitute for medical advice.
         </div>
         <p className="mt-2 text-[0.7rem] text-cream/25">
-          Ambience photograph by Srijinfrancis, via Wikimedia Commons, CC BY SA
-          4.0.
+          Ambience photograph by Srijinfrancis, CC BY SA 4.0. Therapy table
+          photograph by Gabi, CC BY 2.0. Both via Wikimedia Commons.
         </p>
       </div>
     </footer>
