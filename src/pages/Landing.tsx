@@ -175,8 +175,8 @@ function Nav() {
           >
             {PHONE_DISPLAY}
           </a>
-          <a href="#enquire" onClick={() => track("begin_book_click")} className={`${btnPrimary} px-5 py-3`}>
-            Book a consultation
+          <a href="#book" onClick={() => track("begin_book_click")} className={`${btnPrimary} px-5 py-3`}>
+            Book <span className="hidden sm:inline">a consultation</span>
           </a>
         </div>
       </div>
@@ -230,7 +230,7 @@ function Hero() {
           </motion.p>
 
           <motion.div variants={loadChild} custom={3} className="mt-9 flex flex-wrap items-center gap-4">
-            <a href="#enquire" onClick={() => track("hero_book_click")} className={btnPrimary}>
+            <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary}>
               Book a consultation
             </a>
             <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline}>
@@ -477,10 +477,26 @@ function BookingForm() {
               </a>
             </div>
 
-            <p className="mt-6 text-center text-[0.8rem] leading-relaxed text-muted-foreground">
-              Our team will call you to confirm your slot. Your information is
-              completely confidential and is not stored on this website.
-            </p>
+            <div className="mt-6 space-y-2 text-center">
+              <p className="text-[0.82rem] font-medium text-foreground">
+                <span aria-hidden="true" className="mr-1.5 text-primary">★</span>
+                Rated 4.8 on Google by hundreds of patients{" "}
+                <a
+                  href={GOOGLE_REVIEWS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track("form_reviews_click")}
+                  className="link-quiet text-muted-foreground"
+                >
+                  (see reviews)
+                </a>
+              </p>
+              <p className="text-[0.8rem] leading-relaxed text-muted-foreground">
+                Our team replies during clinic hours, Monday to Saturday, 7 AM
+                to 7 PM. Enquiring costs nothing, your information stays
+                confidential, and it is not stored on this website.
+              </p>
+            </div>
           </form>
         </div>
       </Reveal>
@@ -648,185 +664,84 @@ function Understanding() {
 }
 
 /* ================================================================== */
-/* 05 EARLY ENQUIRY (sage background)                                 */
+/* 05 TALK TO US (sage background, three contact pathways)            */
 /* ================================================================== */
-/* The detailed booking form now lives in section 02b.                */
+/* The booking form lives early, in section 02b. This section catches  */
+/* visitors who prefer a different way in. No second form.             */
 
-function EnquiryForm() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [mode, setMode] = useState<"Clinic" | "Online">("Clinic");
-  const [concern, setConcern] = useState("");
-  const [sent, setSent] = useState(false);
+const TALK_PATHS = [
+  {
+    title: "Ask on WhatsApp",
+    body: "Questions about psoriasis care, before you decide to book.",
+    action: "Start a chat",
+    href: WA_MAIN,
+    event: "talk_whatsapp_click",
+    external: true,
+  },
+  {
+    title: "Call the clinic",
+    body: "Speak directly with our team during clinic hours.",
+    action: "Call " + PHONE_DISPLAY,
+    href: "tel:" + PHONE_TEL,
+    event: "talk_call_click",
+    external: false,
+  },
+  {
+    title: "Request a callback",
+    body: "Leave your number in the form above and we will call you.",
+    action: "Go to the form",
+    href: "#book",
+    event: "talk_callback_click",
+    external: false,
+  },
+];
 
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    track("enquiry_submit");
-    const lines = [
-      "Psoriasis consultation enquiry",
-      "Name: " + name,
-      "Phone: " + phone,
-    ];
-    if (email.trim()) lines.push("Email: " + email);
-    lines.push("Preferred consultation: " + mode);
-    if (concern.trim()) lines.push("Concern: " + concern);
-    window.open(wa(lines.join("\n")), "_blank");
-    setSent(true);
-  };
-
-  const field =
-    "w-full rounded-[3px] border border-input bg-cream px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors duration-300 hover:border-foreground/30 focus:border-primary";
-
-  if (sent) {
-    return (
-      <div className="border border-border bg-cream p-8 sm:p-10">
-        <p className="eyebrow">Thank you</p>
-        <p className="font-display mt-3 text-2xl text-foreground">
-          Thank you. Your enquiry has been received.
-        </p>
-        <p className="mt-3 text-[0.9rem] text-muted-foreground">
-          Our team will reach out to you shortly. If WhatsApp did not open,
-          you can continue the conversation there or call {PHONE_DISPLAY}.
-        </p>
-        <div className="mt-7 flex flex-wrap gap-4">
-          <a
-            href={WA_MAIN}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => track("success_whatsapp_click")}
-            className={btnPrimary}
-          >
-            Continue on WhatsApp
-          </a>
-          <a href={"tel:" + PHONE_TEL} onClick={() => track("success_call_click")} className={btnOutline}>
-            Call {PHONE_DISPLAY}
-          </a>
-        </div>
-      </div>
-    );
-  }
-
+function TalkToUs() {
   return (
-    <form onSubmit={submit} className="border border-border bg-cream p-6 sm:p-8">
-      <div className="grid gap-4 sm:grid-cols-3">
-        <label className="block">
-          <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Full name
-          </span>
-          <input
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={field + " mt-2"}
-            placeholder="Your name"
-          />
-        </label>
-        <label className="block">
-          <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Phone or WhatsApp
-          </span>
-          <input
-            required
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className={field + " mt-2"}
-            placeholder="+91"
-          />
-        </label>
-        <label className="block">
-          <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Email
-          </span>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={field + " mt-2"}
-            placeholder="you@example.com"
-          />
-        </label>
-      </div>
-
-      <div className="mt-6">
-        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-          Preferred consultation
-        </span>
-        <div className="mt-2 grid max-w-xs grid-cols-2 border border-input">
-          {(["Clinic", "Online"] as const).map((m) => (
-            <button
-              type="button"
-              key={m}
-              onClick={() => setMode(m)}
-              aria-pressed={mode === m}
-              className={
-                "py-2.5 text-[0.78rem] font-medium uppercase tracking-[0.12em] transition-colors duration-300 " +
-                (mode === m
-                  ? "bg-foreground text-cream"
-                  : "text-muted-foreground hover:text-foreground")
-              }
-            >
-              {m}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <label className="mt-6 block">
-        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-          Your concern (optional)
-        </span>
-        <textarea
-          rows={3}
-          value={concern}
-          onChange={(e) => setConcern(e.target.value)}
-          className={field + " mt-2 resize-none"}
-          placeholder="Tell us briefly about what you have been experiencing."
-        />
-      </label>
-
-      <button type="submit" className={btnPrimary + " mt-7 w-full sm:w-auto"}>
-        Request a consultation
-      </button>
-
-      <p className="mt-4 text-[0.78rem] leading-relaxed text-muted-foreground">
-        Your details are used only to contact you about this enquiry. Nothing
-        is stored on this website.
-      </p>
-    </form>
-  );
-}
-
-function EarlyEnquiry() {
-  return (
-    <section id="enquire" className="scroll-mt-24 bg-accent py-20 lg:py-28">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+    <section className="bg-accent py-20 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <Reveal>
-          <p className="eyebrow">Early enquiry</p>
+          <p className="eyebrow">Talk to us</p>
           <h2 className="font-display mt-4 text-[clamp(1.9rem,3.6vw,2.9rem)] leading-tight text-foreground">
-            Let&rsquo;s start with a conversation.
+            Not sure where to begin?
           </h2>
           <p className="mt-5 max-w-md leading-relaxed text-muted-foreground">
-            Tell us a little about what you are experiencing and our team will
-            help you with the next step.
-          </p>
-          <p className="mt-10 text-[0.85rem] text-muted-foreground">
-            Not sure where to begin?{" "}
-            <a
-              href={WA_MAIN}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("enquiry_whatsapp_click")}
-              className="link-quiet font-medium text-foreground"
-            >
-              Chat with our team →
-            </a>
+            Most people start with a question, not a booking. Any of these
+            three will reach a real person on our team.
           </p>
         </Reveal>
-        <Reveal>
-          <EnquiryForm />
-        </Reveal>
+
+        <motion.ol
+          className="divide-y divide-border border-t border-border"
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-70px" }}
+        >
+          {TALK_PATHS.map((p) => (
+            <motion.li key={p.title} variants={reveal} className="group">
+              <a
+                href={p.href}
+                target={p.external ? "_blank" : undefined}
+                rel={p.external ? "noreferrer" : undefined}
+                onClick={() => track(p.event)}
+                className="grid grid-cols-[1fr_auto] items-center gap-4 py-7 transition-colors duration-300"
+              >
+                <div>
+                  <h3 className="font-display text-2xl text-foreground transition-colors duration-300 group-hover:text-primary">
+                    {p.title}
+                  </h3>
+                  <p className="mt-1 max-w-md text-[0.9rem] leading-relaxed text-muted-foreground">
+                    {p.body}
+                  </p>
+                </div>
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-foreground/70 transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary">
+                  {p.action} →
+                </span>
+              </a>
+            </motion.li>
+          ))}
+        </motion.ol>
       </div>
     </section>
   );
@@ -1050,8 +965,8 @@ const FAQS = [
     a: "Dr. Anusree Leela takes time to understand your symptoms, health history, daily routine and previous treatments before discussing any care plan.",
   },
   {
-    q: "Will my care be personalized?",
-    a: "Yes. Every plan is built around your consultation and adjusted as your skin responds.",
+    q: "What does a consultation cost?",
+    a: "Fees depend on the consultation type and duration. Our team shares the exact fee when you enquire, before anything is booked.",
   },
   {
     q: "Can Ayurveda guarantee a cure for psoriasis?",
@@ -1115,22 +1030,31 @@ function FinalCta() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="#enquire"
+              href="#book"
               onClick={() => track("final_book_click")}
               className={`${btnBase} bg-primary text-primary-foreground hover:bg-primary/90`}
             >
               Book a consultation
-            </a>
-            <a
-              href={WA_MAIN}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("final_whatsapp_click")}
-              className={btnOnDark}
-            >
-              WhatsApp us
-            </a>
-          </div>
+            </a>              <a
+                href={WA_MAIN}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("final_whatsapp_click")}
+                className={btnOnDark}
+              >
+                WhatsApp us
+              </a>
+            </div>
+            <p className="mt-6 text-[0.85rem] text-cream/60">
+              Prefer to talk?{" "}
+              <a
+                href={"tel:" + PHONE_TEL}
+                onClick={() => track("final_call_click")}
+                className="link-quiet text-cream"
+              >
+                Call {PHONE_DISPLAY}
+              </a>
+            </p>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[0.8rem] text-cream/60">
             <span>Dr. Anusree Leela, BAMS</span>
             <span aria-hidden="true">·</span>
@@ -1227,22 +1151,29 @@ function Footer() {
 
 function MobileCta() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 border-t border-border bg-cream lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-3 border-t border-border bg-cream lg:hidden">
       <a
-        href="#enquire"
-        onClick={() => track("sticky_book_click")}
-        className="flex h-14 items-center justify-center text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-foreground"
+        href={"tel:" + PHONE_TEL}
+        onClick={() => track("sticky_call_click")}
+        className="flex h-14 items-center justify-center text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground"
       >
-        Book consultation
+        Call
       </a>
       <a
         href={WA_MAIN}
         target="_blank"
         rel="noreferrer"
         onClick={() => track("sticky_whatsapp_click")}
-        className="flex h-14 items-center justify-center bg-[#647052] text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-cream"
+        className="flex h-14 items-center justify-center border-x border-border text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#647052]"
       >
         WhatsApp
+      </a>
+      <a
+        href="#book"
+        onClick={() => track("sticky_book_click")}
+        className="flex h-14 items-center justify-center bg-primary text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-primary-foreground"
+      >
+        Book now
       </a>
     </div>
   );
@@ -1262,7 +1193,7 @@ export default function Landing() {
         <BookingForm />
         <Doctor />
         <Understanding />
-        <EarlyEnquiry />
+        <TalkToUs />
         <PersonalizedCare />
         <HowItWorks />
         <Reviews />
