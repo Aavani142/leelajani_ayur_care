@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
 import {
   Accordion,
@@ -6,6 +6,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /* ------------------------------------------------------------------ */
 /* Brand assets (uploaded clinic files, do not replace)                */
@@ -1254,8 +1260,164 @@ function MobileCta() {
 }
 
 /* ================================================================== */
-/* PAGE                                                               */
+/* WELCOME POPUP  (opens once per visit, a short while after load)     */
 /* ================================================================== */
+
+const POPUP_DELAY_MS = 6000;
+
+function WelcomePopup() {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [mode, setMode] = useState("");
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      if (!sessionStorage.getItem("lj_popup_seen")) {
+        setOpen(true);
+        sessionStorage.setItem("lj_popup_seen", "1");
+        track("popup_shown");
+      }
+      }, POPUP_DELAY_MS);
+    return () => window.clearTimeout(t);
+  }, []);
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    track("popup_form_submit");
+    const lines = ["Appointment request (from the popup)", "Name: " + name, "Phone: " + phone];
+    if (mode) lines.push("Preferred consultation: " + mode);
+    window.open(wa(lines.join("\n")), "_blank");
+    setSent(true);
+  };
+
+  const field =
+    "w-full rounded-[3px] border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/55 outline-none transition-colors duration-300 hover:border-foreground/30 focus:border-primary";
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent
+        className="max-w-md gap-0 rounded-[3px] border-border bg-cream p-0 sm:max-w-lg"
+        showCloseButton
+      >
+        <DialogTitle className="sr-only">Request a consultation</DialogTitle>
+        <DialogDescription className="sr-only">
+          Share your name and phone number and the clinic team will call you back.
+        </DialogDescription>
+
+        {sent ? (
+          <div className="p-8 text-center sm:p-10">
+            <p className="font-display text-2xl text-foreground">
+              Thank you. Your request has been received.
+            </p>
+            <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-muted-foreground">
+              Our team will call you back to confirm your slot. You can also
+              continue on WhatsApp right away.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <a
+                href={WA_MAIN}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("popup_success_whatsapp_click")}
+                className={btnPrimary}
+              >
+                <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
+                Continue on WhatsApp
+              </a>
+              <button type="button" onClick={() => setOpen(false)} className={btnOutline}>
+                Close
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="p-8 sm:p-10">
+            <p className="eyebrow">Leelajani Ayur Care</p>
+            <p className="font-display mt-3 text-[clamp(1.6rem,3vw,2.1rem)] leading-tight text-foreground">
+              Thinking about a consultation?
+            </p>
+            <p className="mt-3 text-[0.92rem] leading-relaxed text-muted-foreground">
+              Leave your number and our team will call you back during clinic
+              hours. No pressure, and nothing is stored on this website.
+            </p>
+
+            <form onSubmit={submit} className="mt-7 space-y-4">
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                  Your name
+                </span>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Rahul Sharma"
+                  className={field + " mt-2"}
+                />
+              </label>
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                  Phone or WhatsApp number
+                </span>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="e.g. +91 98470 12345"
+                  className={field + " mt-2"}
+                />
+              </label>
+              <fieldset>
+                <legend className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                  Preferred consultation
+                </legend>
+                <div className="mt-2 grid grid-cols-2 gap-3">
+                  {["At the Kowdiar clinic", "Online"].map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => setMode(m)}
+                      className={
+                        "rounded-[3px] border px-4 py-3 text-[0.85rem] transition-colors duration-300 " +
+                        (mode === m
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-input bg-card text-foreground hover:border-foreground/40")
+                      }
+                    >
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div className="flex flex-col gap-3 pt-1 sm:flex-row">
+                <button type="submit" className={btnPrimary + " flex-1"}>
+                  Request a callback
+                </button>
+                <a
+                  href={WA_MAIN}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track("popup_whatsapp_click")}
+                  className={btnOutline + " flex-1"}
+                >
+                  <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
+                  WhatsApp instead
+                </a>
+              </div>
+
+              <p className="pt-1 text-center text-[0.75rem] leading-relaxed text-muted-foreground">
+                We reply during clinic hours, Monday to Saturday, 7 AM to 7 PM.
+              </p>
+            </form>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function Landing() {
   return (
@@ -1277,6 +1439,7 @@ export default function Landing() {
       <Footer />
       <MobileCta />
       <FloatingWhatsApp />
+      <WelcomePopup />
     </div>
   );
 }
