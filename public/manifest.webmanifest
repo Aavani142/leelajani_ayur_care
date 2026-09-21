@@ -1,11 +1,11 @@
 {
   "name": "Leelajani Ayur Care",
   "short_name": "Leelajani",
-  "description": "Ayurvedic care for psoriasis with Dr. Anusree Leela, BAMS, Kowdiar, Thiruvananthapuram. Online and in clinic consultations.",
+  "description": "Personalized Ayurvedic consultation for psoriasis with Dr. Anusree Leela, BAMS, Kowdiar, Thiruvananthapuram. Online and in clinic consultations.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FAF8F2",
-  "theme_color": "#2C5744",
+  "theme_color": "#5A4432",
   "icons": [
     {
       "src": "/logo.png",
