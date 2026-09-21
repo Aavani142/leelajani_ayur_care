@@ -1263,7 +1263,7 @@ function MobileCta() {
 /* WELCOME POPUP  (opens once per visit, a short while after load)     */
 /* ================================================================== */
 
-const POPUP_DELAY_MS = 6000;
+const POPUP_DELAY_MS = 2500;
 
 function WelcomePopup() {
   const [open, setOpen] = useState(false);
@@ -1274,12 +1274,9 @@ function WelcomePopup() {
 
   useEffect(() => {
     const t = window.setTimeout(() => {
-      if (!sessionStorage.getItem("lj_popup_seen")) {
-        setOpen(true);
-        sessionStorage.setItem("lj_popup_seen", "1");
-        track("popup_shown");
-      }
-      }, POPUP_DELAY_MS);
+      setOpen(true);
+      track("popup_shown");
+    }, POPUP_DELAY_MS);
     return () => window.clearTimeout(t);
   }, []);
 
