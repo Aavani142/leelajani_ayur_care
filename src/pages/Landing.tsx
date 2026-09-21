@@ -134,28 +134,37 @@ export function WhatsAppIcon({ className }: { className?: string }) {
 /* NAV                                                                */
 /* ================================================================== */
 
+const NAV_LINKS = [
+  { label: "The doctor", href: "#doctor" },
+  { label: "Reviews", href: "#reviews" },
+  { label: "FAQ", href: "#faq" },
+];
+
 function Nav() {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:h-24">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-6">
         <a href="#" aria-label="Leelajani Ayur Care, back to top" className="shrink-0">
           <img
             src={LOGO}
             alt="Leelajani Ayur Care"
-            className="h-14 w-auto object-contain sm:h-[4.5rem]"
-            width={180}
-            height={72}
+            className="h-16 w-auto object-contain sm:h-[4.75rem] lg:h-[5.5rem]"
+            width={220}
+            height={88}
           />
         </a>
 
         <nav className="hidden items-center gap-8 text-[0.8rem] font-medium text-muted-foreground lg:flex">
-          <a href="#doctor" className="link-quiet hover:text-foreground">The doctor</a>
-          <a href="#process" className="link-quiet hover:text-foreground">How it works</a>
-          <a href="#reviews" className="link-quiet hover:text-foreground">Reviews</a>
-          <a href="#faq" className="link-quiet hover:text-foreground">FAQ</a>
+          {NAV_LINKS.map((l) => (
+            <a key={l.href} href={l.href} className="link-quiet hover:text-foreground">
+              {l.label}
+            </a>
+          ))}
         </nav>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4 sm:gap-5">
           <a
             href={"tel:" + PHONE_TEL}
             className="link-quiet hidden text-[0.85rem] text-muted-foreground hover:text-foreground xl:block"
@@ -175,8 +184,45 @@ function Nav() {
           <a href="#book" onClick={() => track("begin_book_click")} className={`${btnPrimary} px-5 py-3`}>
             Book <span className="hidden sm:inline">a consultation</span>
           </a>
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] lg:hidden"
+          >
+            <span
+              aria-hidden="true"
+              className={
+                "block h-px w-5 bg-foreground transition-transform duration-300 " +
+                (open ? "translate-y-[3px] rotate-45" : "")
+              }
+            />
+            <span
+              aria-hidden="true"
+              className={
+                "block h-px w-5 bg-foreground transition-transform duration-300 " +
+                (open ? "-translate-y-[3px] -rotate-45" : "")
+              }
+            />
+          </button>
         </div>
       </div>
+
+      {open && (
+        <nav className="border-t border-border bg-cream px-5 pb-4 pt-1 lg:hidden">
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="block border-b border-border/60 py-3.5 text-[0.95rem] font-medium text-foreground last:border-0"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
@@ -197,7 +243,7 @@ function Hero() {
       <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
         {/* Copy */}
         <motion.div
-          className="flex flex-col justify-center px-6 pb-16 pt-12 sm:pt-16 lg:py-32 lg:pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] lg:pr-20"
+          className="flex flex-col justify-center px-6 pb-14 pt-10 sm:pt-14 lg:py-32 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-20"
           variants={stagger}
           initial="hidden"
           animate="show"
@@ -213,7 +259,7 @@ function Hero() {
           >
             Psoriasis is personal.
             <br />
-            <em className="text-primary">Your care should be too.</em>
+            <em className="text-[#31563D]">Your care should be too.</em>
           </motion.h1>
 
           <motion.p
@@ -225,15 +271,15 @@ function Hero() {
             at Leelajani Ayur Care in Kowdiar or online.
           </motion.p>
 
-          <motion.div variants={loadChild} custom={3} className="mt-9 flex flex-wrap items-center gap-4">
-            <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary}>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary + " flex-1 sm:flex-none"}>
               Book a consultation
             </a>
-            <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline}>
+            <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline + " flex-1 sm:flex-none"}>
               <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
               WhatsApp us
             </a>
-          </motion.div>
+          </div>
 
           <motion.div
             variants={loadChild}
@@ -250,7 +296,7 @@ function Hero() {
         <div className="relative px-6 pb-16 sm:pb-20 lg:py-20 lg:pl-0">
           <motion.div
             style={{ y: drift }}
-            className="relative mx-auto max-w-xs sm:max-w-sm lg:ml-auto lg:mr-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] lg:max-w-[21rem]"
+            className="relative mx-auto max-w-[17rem] sm:max-w-sm lg:ml-auto lg:mr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:max-w-[21rem]"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
@@ -710,8 +756,9 @@ function TalkToUs() {
                     {p.body}
                   </p>
                 </div>
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-foreground/70 transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary">
-                  {p.action} →
+                <span className="text-right text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-foreground/70 transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary">
+                  <span className="hidden sm:inline">{p.action} </span>
+                  <span aria-hidden="true">→</span>
                 </span>
               </a>
             </motion.li>
@@ -738,7 +785,7 @@ function PersonalizedCare() {
     <section className="bg-cream py-20 lg:py-28">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
         <Reveal>
-          <h2 className="font-display max-w-md text-[clamp(1.9rem,3.6vw,2.9rem)] leading-tight text-foreground">
+          <h2 className="font-display mt-4 text-[clamp(1.9rem,3.6vw,2.9rem)] leading-tight text-foreground">
             Care that begins with the person.
           </h2>
           <p className="mt-6 max-w-md leading-relaxed text-muted-foreground">
@@ -760,7 +807,7 @@ function PersonalizedCare() {
               variants={reveal}
               className="grid grid-cols-[4.5rem_1fr] gap-4 py-7 sm:grid-cols-[6rem_1fr]"
             >
-              <span aria-hidden="true" className="font-display text-4xl leading-none text-[#879B82]/55 sm:text-5xl">
+              <span aria-hidden="true" className="font-display text-4xl leading-none text-[#879B82]/60 sm:text-5xl">
                 {s.n}
               </span>
               <div>
@@ -771,58 +818,6 @@ function PersonalizedCare() {
                   {s.body}
                 </p>
               </div>
-            </motion.li>
-          ))}
-        </motion.ol>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================== */
-/* 07 HOW IT WORKS (offset editorial rows)                            */
-/* ================================================================== */
-
-const PROCESS = [
-  { n: "01", title: "Share your concern", body: "Tell us briefly what you are experiencing." },
-  { n: "02", title: "Speak with our team", body: "Our team helps arrange your consultation." },
-  { n: "03", title: "Consult Dr. Anusree", body: "Have your consultation online or at the Kowdiar clinic." },
-  { n: "04", title: "Receive your guidance", body: "Continue with personalized guidance and appropriate follow up." },
-];
-
-function HowItWorks() {
-  return (
-    <section id="process" className="scroll-mt-24 border-y border-border bg-background py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-6">
-        <Reveal className="max-w-xl">
-          <h2 className="font-display text-[clamp(1.9rem,3.6vw,2.9rem)] leading-tight text-foreground">
-            What happens after I enquire?
-          </h2>
-        </Reveal>
-
-        <motion.ol
-          className="mt-14 grid gap-x-16 gap-y-12 sm:grid-cols-2"
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-70px" }}
-        >
-          {PROCESS.map((s, i) => (
-            <motion.li
-              key={s.n}
-              variants={reveal}
-              className={"relative border-t border-foreground/15 pt-6 " + (i % 2 === 1 ? "sm:mt-14" : "")}
-            >
-              <span aria-hidden="true" className="font-display absolute -top-7 right-0 text-7xl leading-none text-foreground/10">
-                {s.n}
-              </span>
-              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-primary">
-                Step {s.n}
-              </p>
-              <h3 className="font-display mt-3 text-2xl text-foreground">{s.title}</h3>
-              <p className="mt-2 max-w-xs text-[0.92rem] leading-relaxed text-muted-foreground">
-                {s.body}
-              </p>
             </motion.li>
           ))}
         </motion.ol>
@@ -1074,25 +1069,26 @@ function FinalCta() {
             Tell us what you have been experiencing and take the first step
             towards a personalized consultation.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-center">
             <a
               href="#book"
               onClick={() => track("final_book_click")}
               className={`${btnBase} bg-accent text-accent-foreground hover:bg-accent/85`}
             >
               Book a consultation
-            </a>              <a
-                href={WA_MAIN}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => track("final_whatsapp_click")}
-                className={btnOnDark}
-              >
-                <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
-                Talk to us on WhatsApp
-              </a>
-            </div>
-            <p className="mt-6 text-[0.85rem] text-cream/60">
+            </a>
+            <a
+              href={WA_MAIN}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => track("final_whatsapp_click")}
+              className={btnOnDark}
+            >
+              <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
+              Talk to us on WhatsApp
+            </a>
+          </div>
+          <p className="mt-6 text-[0.85rem] text-cream/60">
               Prefer to talk?{" "}
               <a
                 href={"tel:" + PHONE_TEL}
@@ -1131,7 +1127,7 @@ function Footer() {
               <img
                 src={LOGO}
                 alt="Leelajani Ayur Care"
-                className="h-16 w-auto object-contain"
+                className="h-20 w-auto object-contain"
                 loading="lazy"
               />
             </div>
@@ -1428,7 +1424,6 @@ export default function Landing() {
         <Understanding />
         <TalkToUs />
         <PersonalizedCare />
-        <HowItWorks />
         <Reviews />
         <Faq />
         <FinalCta />
