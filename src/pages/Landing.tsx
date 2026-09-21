@@ -250,7 +250,7 @@ function Hero() {
         <div className="relative px-6 pb-16 sm:pb-20 lg:py-20 lg:pl-0">
           <motion.div
             style={{ y: drift }}
-            className="relative mx-auto max-w-md lg:mr-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:ml-0"
+            className="relative mx-auto max-w-xs sm:max-w-sm lg:ml-auto lg:mr-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] lg:max-w-[21rem]"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
