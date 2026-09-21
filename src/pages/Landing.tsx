@@ -840,7 +840,7 @@ const TESTIMONIALS = [
     quote:
       "Highly knowledgeable and personalized care provided by Dr. Anusree. Friendly and helpful staff, with a warm atmosphere.",
     name: "Patient feedback",
-    detail: "Public listing reviews, linked below",
+    detail: "From the clinic's public Google listing",
   },
   {
     quote:
@@ -850,62 +850,133 @@ const TESTIMONIALS = [
   },
 ];
 
+/* Official Google G mark and star glyphs: real brand iconography for
+   authentic attribution, kept only in the reviews context.             */
+
+function GoogleG({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <path
+        fill="#4285F4"
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+      />
+    </svg>
+  );
+}
+
+function Star({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M10 1.7l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.3l-4.94 2.6.94-5.5-4-3.9 5.53-.8L10 1.7z" />
+    </svg>
+  );
+}
+
+function StarRow({ value, label }: { value: number; label: string }) {
+  const stars = (
+    <div className="flex gap-1">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star key={i} className="h-5 w-5 shrink-0" />
+      ))}
+    </div>
+  );
+  return (
+    <div className="relative inline-flex" role="img" aria-label={label}>
+      <div className="text-border/70">{stars}</div>
+      <div
+        className="absolute inset-0 overflow-hidden text-[#FBBC05]"
+        style={{ width: (value / 5) * 100 + "%" }}
+      >
+        {stars}
+      </div>
+    </div>
+  );
+}
+
 function Reviews() {
   return (
     <section id="reviews" className="scroll-mt-24 bg-cream py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-6">
-        <Reveal className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="eyebrow">Patient words</p>
-            <h2 className="font-display mt-4 text-[clamp(1.9rem,3.6vw,2.9rem)] leading-tight text-foreground">
-              What patients have shared
-            </h2>
-          </div>
-          <div className="text-[0.85rem] text-muted-foreground">
-            <span className="font-display text-2xl text-foreground">4.8</span>
-            <span aria-hidden="true" className="mx-2 text-primary">★</span>
-            on Google, from hundreds of patients.{" "}
-            <a
-              href={GOOGLE_REVIEWS_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track("reviews_google_click")}
-              className="link-quiet font-medium text-foreground"
-            >
-              Read all reviews on Google →
-            </a>
-          </div>
+        <Reveal className="max-w-2xl">
+          <p className="eyebrow">Patient reviews</p>
+          <h2 className="font-display mt-4 text-[clamp(1.9rem,3.6vw,2.9rem)] leading-tight text-foreground">
+            What patients have shared
+          </h2>
+          <p className="mt-4 leading-relaxed text-muted-foreground">
+            The public Google rating, and words shared by patients of the
+            clinic. Nothing here is written by us.
+          </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          <Reveal className="lg:col-span-2">
-            <figure className="flex h-full flex-col justify-between border border-border bg-card p-8 sm:p-10">
-              <span aria-hidden="true" className="font-display text-6xl leading-none text-primary/30">
-                &ldquo;
-              </span>
-              <blockquote className="mt-4 max-w-lg font-display text-[1.35rem] leading-snug text-foreground sm:text-2xl">
-                {TESTIMONIALS[0].quote}
-              </blockquote>
-              <figcaption className="mt-8 border-t border-border pt-4 text-[0.82rem] text-muted-foreground">
-                <span className="font-semibold text-foreground">{TESTIMONIALS[0].name}</span>
-                <span className="mx-2" aria-hidden="true">·</span>
-                {TESTIMONIALS[0].detail}
-              </figcaption>
-            </figure>
+        <div className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.6fr)]">
+          {/* Google rating summary */}
+          <Reveal>
+            <div className="flex h-full flex-col justify-between border border-border bg-forest p-8 text-cream sm:p-10">
+              <div>
+                <div className="flex items-center gap-3">
+                  <GoogleG className="h-7 w-7" />
+                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-cream/70">
+                    Google rating
+                  </p>
+                </div>
+                <div className="mt-9 flex items-end gap-4">
+                  <span className="font-display text-[4.5rem] leading-none text-cream">4.8</span>
+                  <div className="pb-1.5">
+                    <StarRow value={4.8} label="Rated 4.8 out of 5 on Google" />
+                    <p className="mt-2 text-[0.78rem] text-cream/70">Out of 5</p>
+                  </div>
+                </div>
+                <p className="mt-6 text-[0.9rem] leading-relaxed text-cream/70">
+                  From hundreds of patient reviews on the clinic's public
+                  Google listing.
+                </p>
+              </div>
+              <a
+                href={GOOGLE_REVIEWS_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track("reviews_google_click")}
+                className="mt-10 inline-flex items-center gap-2 border border-cream/30 px-5 py-3.5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-cream transition-colors duration-300 hover:bg-cream hover:text-foreground"
+              >
+                Read all reviews on Google
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </Reveal>
 
-          <div className="grid gap-6">
-            {TESTIMONIALS.slice(1).map((t) => (
+          {/* Individual patient words */}
+          <div className="grid content-start gap-6">
+            {TESTIMONIALS.map((t) => (
               <Reveal key={t.name}>
-                <figure className="flex h-full flex-col justify-between border border-border bg-card p-7">
-                  <blockquote className="text-[0.95rem] leading-relaxed text-foreground">
-                    &ldquo;{t.quote}&rdquo;
-                  </blockquote>
-                  <figcaption className="mt-5 text-[0.78rem] text-muted-foreground">
-                    <span className="font-semibold text-foreground">{t.name}</span>
-                    <span className="mx-1.5" aria-hidden="true">·</span>
-                    {t.detail}
-                  </figcaption>
+                <figure className="card-lift flex items-start gap-5 border border-border bg-card p-6 sm:p-8">
+                  <span
+                    aria-hidden="true"
+                    className="font-display flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent text-lg text-foreground"
+                  >
+                    {t.name.charAt(0)}
+                  </span>
+                  <div className="min-w-0">
+                    <blockquote className="text-[1.02rem] leading-relaxed text-foreground sm:text-[1.08rem]">
+                      &ldquo;{t.quote}&rdquo;
+                    </blockquote>
+                    <figcaption className="mt-4 text-[0.8rem] text-muted-foreground">
+                      <span className="font-semibold text-foreground">{t.name}</span>
+                      <span className="mx-1.5" aria-hidden="true">·</span>
+                      {t.detail}
+                    </figcaption>
+                  </div>
                 </figure>
               </Reveal>
             ))}
