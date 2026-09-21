@@ -106,42 +106,23 @@ const btnOutline = `${btnBase} border border-foreground/25 text-foreground hover
 const btnOnDark = `${btnBase} border border-cream/40 text-cream hover:bg-cream hover:text-foreground`;
 
 /* ------------------------------------------------------------------ */
-/* Botanical line mark, drawn once, reused quietly                     */
+/* Official WhatsApp glyph (the real brand mark, not an illustration)  */
+/* Rendered from the standard WhatsApp path data, single color.        */
 /* ------------------------------------------------------------------ */
 
-function Sprig({ className }: { className?: string }) {
+export function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 120 160"
-      fill="none"
+      viewBox="0 0 24 24"
+      fill="currentColor"
       aria-hidden="true"
       className={className}
     >
-      <path
-        d="M60 156 C58 110 60 70 60 6"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      {[30, 52, 74, 96, 118].map((y, i) => (
-        <g key={y}>
-          <path
-            d={`M60 ${y + 14} C${44 - i * 2} ${y + 6} ${34 - i} ${y + 16} ${30 - i * 2} ${y + 28}`}
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-          <path
-            d={`M60 ${y + 14} C${76 + i * 2} ${y + 6} ${86 + i} ${y + 16} ${90 + i * 2} ${y + 28}`}
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-        </g>
-      ))}
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
     </svg>
   );
 }
+
 
 /* ================================================================== */
 /* NAV                                                                */
@@ -168,12 +149,22 @@ function Nav() {
           <a href="#faq" className="link-quiet hover:text-foreground">FAQ</a>
         </nav>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-5">
           <a
             href={"tel:" + PHONE_TEL}
             className="link-quiet hidden text-[0.85rem] text-muted-foreground hover:text-foreground xl:block"
           >
             {PHONE_DISPLAY}
+          </a>
+          <a
+            href={WA_MAIN}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => track("nav_whatsapp_click")}
+            className="hidden items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#128C7E] transition-colors duration-300 hover:text-[#075E54] md:inline-flex"
+          >
+            <WhatsAppIcon className="h-[18px] w-[18px]" />
+            WhatsApp us
           </a>
           <a href="#book" onClick={() => track("begin_book_click")} className={`${btnPrimary} px-5 py-3`}>
             Book <span className="hidden sm:inline">a consultation</span>
@@ -196,7 +187,6 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-cream">
       <div className="hero-veil pointer-events-none absolute inset-0" aria-hidden="true" />
-      <Sprig className="pointer-events-none absolute -left-6 bottom-10 h-56 w-auto text-primary/15" />
 
       <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
         {/* Copy */}
@@ -234,6 +224,7 @@ function Hero() {
               Book a consultation
             </a>
             <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline}>
+              <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
               WhatsApp us
             </a>
           </motion.div>
@@ -473,6 +464,7 @@ function BookingForm() {
                 onClick={() => track("booking_whatsapp_click")}
                 className={btnOutline + " flex-1"}
               >
+                <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
                 Chat to book via WhatsApp
               </a>
             </div>
@@ -637,8 +629,7 @@ function Understanding() {
                 for your condition and never as a fixed package.
               </p>
             </div>
-            <div className="p-8 sm:p-10">
-              <Sprig className="pointer-events-none absolute right-6 top-6 h-24 w-auto text-primary/20" />
+            <div className="relative p-8 sm:p-10">
               <p className="eyebrow">During the first consultation</p>
               <ul className="mt-6 divide-y divide-border">
                 {[
@@ -1042,7 +1033,8 @@ function FinalCta() {
                 onClick={() => track("final_whatsapp_click")}
                 className={btnOnDark}
               >
-                WhatsApp us
+                <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
+                Talk to us on WhatsApp
               </a>
             </div>
             <p className="mt-6 text-[0.85rem] text-cream/60">
@@ -1112,6 +1104,10 @@ function Footer() {
             <a href={"tel:" + PHONE_TEL} onClick={() => track("footer_call_click")} className="mt-3 block text-cream/75 hover:text-cream">
               {PHONE_DISPLAY}
             </a>
+            <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("footer_whatsapp_click")} className="mt-1 flex items-center gap-2 text-cream/75 hover:text-cream">
+              <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+              Chat on WhatsApp
+            </a>
             <a href={"mailto:" + EMAIL} className="block text-cream/75 hover:text-cream">
               {EMAIL}
             </a>
@@ -1146,6 +1142,35 @@ function Footer() {
 }
 
 /* ================================================================== */
+/* FLOATING WHATSAPP BUTTON  (official glyph, circular, fixed)         */
+/* ================================================================== */
+
+function FloatingWhatsApp() {
+  return (
+    <a
+      href={WA_MAIN}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Chat with us on WhatsApp"
+      onClick={() => track("floating_whatsapp_click")}
+      className="group fixed bottom-5 right-5 z-50 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_10px_28px_rgba(37,211,102,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#128C7E] active:scale-100 lg:flex"
+    >
+      <WhatsAppIcon className="h-7 w-7" />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[calc(100%+12px)] translate-x-1 whitespace-nowrap rounded-[3px] bg-foreground px-3 py-1.5 text-[0.72rem] font-medium tracking-wide text-cream opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+      >
+        Chat with us
+      </span>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/20"
+      />
+    </a>
+  );
+}
+
+/* ================================================================== */
 /* MOBILE STICKY CTA                                                  */
 /* ================================================================== */
 
@@ -1164,8 +1189,9 @@ function MobileCta() {
         target="_blank"
         rel="noreferrer"
         onClick={() => track("sticky_whatsapp_click")}
-        className="flex h-14 items-center justify-center border-x border-border text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#647052]"
+        className="flex h-14 items-center justify-center gap-2 border-x border-border bg-[#25D366]/10 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#128C7E]"
       >
+        <WhatsAppIcon className="h-5 w-5" />
         WhatsApp
       </a>
       <a
@@ -1202,6 +1228,7 @@ export default function Landing() {
       </main>
       <Footer />
       <MobileCta />
+      <FloatingWhatsApp />
     </div>
   );
 }
