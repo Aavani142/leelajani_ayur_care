@@ -13,8 +13,8 @@ import {
 
 const LOGO = "/assets/Leelajani-Logo.png";
 const DOC_PHOTO = "/assets/Le.webp";
-/* Reception of a working Ayurvedic clinic in Kerala, © SalmanVattoli, CC BY-SA 4.0 via Wikimedia Commons */
-const CLINIC = "/assets/clinic-reception.jpg";
+/* Hero photograph, from the clinic's own uploaded assets */
+const HERO_IMG = "/assets/24ccabb69f77080c09aa4c72e8176445.jpg";
 /* Traditional Ayurvedic therapy table (droni), © Gabi, CC BY 2.0 via Wikimedia Commons */
 const THERAPY = "/assets/ayurveda-therapy.jpg";
 
@@ -240,7 +240,7 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Reception of a real Kerala Ayurvedic clinic (© SalmanVattoli, CC BY-SA 4.0), with the appointment card */}
+        {/* The clinic's own hero photograph, presented clean: no overlays, no frames */}
         <div className="relative px-6 pb-16 sm:pb-20 lg:py-20 lg:pl-0">
           <motion.div
             style={{ y: drift }}
@@ -249,37 +249,15 @@ function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
           >
-            <div
-              aria-hidden="true"
-              className="absolute -left-4 -top-4 h-full w-full border border-primary/30"
-            />
-            <div className="group relative aspect-[4/5] overflow-hidden bg-accent">
+            <div className="group relative aspect-[2/3] overflow-hidden bg-accent">
               <img
-                src={CLINIC}
-                alt="The reception and consultation desk of an established Ayurvedic clinic in Kerala, in natural daylight"
-                className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
+                src={HERO_IMG}
+                alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
+                className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]"
               />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,oklch(0.36_0.048_125/0.55)_100%)]"
-              />
-
-              {/* the appointment card, with real clinic facts */}
-              <div className="absolute inset-x-5 bottom-5 border border-border bg-cream p-5">
-                <p className="eyebrow">Consultation</p>
-                <p className="font-display mt-2 text-xl leading-snug text-foreground">
-                  Dr. Anusree Leela, BAMS
-                </p>
-                <div className="mt-3 space-y-1.5 border-t border-border pt-3 text-[0.8rem] text-muted-foreground">
-                  <p>Leelajani Ayur Care, Kowdiar</p>
-                  <p>Online consultation available</p>
-                  <p>Monday to Saturday, 7 AM to 7 PM</p>
-                </div>
-              </div>
             </div>
-
             <p className="mt-4 text-center text-[0.78rem] text-muted-foreground/80">
-              A working clinic room, an unhurried conversation. That is where care begins.
+              Leelajani Ayur Care, Kowdiar, Trivandrum.
             </p>
           </motion.div>
         </div>
@@ -622,7 +600,7 @@ function Understanding() {
               />
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,oklch(0.36_0.048_125/0.45)_100%)]"
+                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_55%,rgba(19,46,33,0.45)_100%)]"
               />
               <p className="absolute bottom-4 left-5 right-5 text-[0.8rem] leading-relaxed text-cream">
                 Classical therapies, when advised, are selected by the doctor
@@ -776,7 +754,7 @@ function PersonalizedCare() {
               variants={reveal}
               className="grid grid-cols-[4.5rem_1fr] gap-4 py-7 sm:grid-cols-[6rem_1fr]"
             >
-              <span aria-hidden="true" className="font-display text-4xl leading-none text-[#647052]/45 sm:text-5xl">
+              <span aria-hidden="true" className="font-display text-4xl leading-none text-[#879B82]/55 sm:text-5xl">
                 {s.n}
               </span>
               <div>
@@ -1023,7 +1001,7 @@ function FinalCta() {
             <a
               href="#book"
               onClick={() => track("final_book_click")}
-              className={`${btnBase} bg-primary text-primary-foreground hover:bg-primary/90`}
+              className={`${btnBase} bg-accent text-accent-foreground hover:bg-accent/85`}
             >
               Book a consultation
             </a>              <a
@@ -1133,8 +1111,7 @@ function Footer() {
           awareness and is not a substitute for medical advice.
         </div>
         <p className="mt-2 text-[0.7rem] text-cream/25">
-          Clinic reception photograph by SalmanVattoli, CC BY SA 4.0. Therapy
-          table photograph by Gabi, CC BY 2.0. Both via Wikimedia Commons.
+          Therapy table photograph by Gabi, CC BY 2.0, via Wikimedia Commons.
         </p>
       </div>
     </footer>
@@ -1189,7 +1166,7 @@ function MobileCta() {
         target="_blank"
         rel="noreferrer"
         onClick={() => track("sticky_whatsapp_click")}
-        className="flex h-14 items-center justify-center gap-2 border-x border-border bg-[#25D366]/10 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#128C7E]"
+        className="flex h-14 items-center justify-center gap-2 border-x border-border bg-[#25D366]/10 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#31563D]"
       >
         <WhatsAppIcon className="h-5 w-5" />
         WhatsApp

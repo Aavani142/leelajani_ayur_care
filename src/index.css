@@ -46,42 +46,42 @@
   --font-serif: "DM Serif Display", ui-serif, Georgia, serif;
 }
 
-/* CHANGE VALUES FOR THEME — Campaign: warm ivory, sage, olive, terracotta, earthy brown */
+/* CHANGE VALUES FOR THEME — Leelajani botanical green system, anchored on #132E21 */
 :root {
   --radius: 0.375rem;
-  --background: oklch(0.955 0.014 95);
-  --foreground: oklch(0.32 0.032 60);
-  --card: oklch(0.972 0.01 95);
-  --card-foreground: oklch(0.32 0.032 60);
-  --popover: oklch(0.975 0.008 95);
-  --popover-foreground: oklch(0.32 0.032 60);
-  --primary: oklch(0.58 0.13 40);
-  --primary-foreground: oklch(0.975 0.012 85);
-  --secondary: oklch(0.925 0.02 105);
-  --secondary-foreground: oklch(0.36 0.045 125);
-  --muted: oklch(0.928 0.016 100);
-  --muted-foreground: oklch(0.45 0.028 80);
-  --accent: oklch(0.885 0.035 118);
-  --accent-foreground: oklch(0.34 0.045 125);
+  --background: #F7F5ED;
+  --foreground: #132E21;
+  --card: #FFFFFF;
+  --card-foreground: #132E21;
+  --popover: #FFFFFF;
+  --popover-foreground: #132E21;
+  --primary: #132E21;
+  --primary-foreground: #F7F5ED;
+  --secondary: #F2F5EE;
+  --secondary-foreground: #132E21;
+  --muted: #F2F5EE;
+  --muted-foreground: #44584A;
+  --accent: #DCE5D7;
+  --accent-foreground: #132E21;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.868 0.022 100);
-  --input: oklch(0.855 0.024 100);
-  --ring: oklch(0.58 0.13 40);
-  --chart-1: oklch(0.58 0.13 40);
-  --chart-2: oklch(0.73 0.05 115);
-  --chart-3: oklch(0.5 0.05 130);
-  --chart-4: oklch(0.36 0.045 125);
-  --chart-5: oklch(0.42 0.05 80);
-  --sidebar: oklch(0.95 0.013 95);
-  --sidebar-foreground: oklch(0.32 0.032 60);
-  --sidebar-primary: oklch(0.58 0.13 40);
-  --sidebar-primary-foreground: oklch(0.975 0.012 85);
-  --sidebar-accent: oklch(0.92 0.02 105);
-  --sidebar-accent-foreground: oklch(0.36 0.045 125);
-  --sidebar-border: oklch(0.868 0.022 100);
-  --sidebar-ring: oklch(0.58 0.13 40);
-  --cream: oklch(0.955 0.014 95);
-  --forest: oklch(0.36 0.048 125);
+  --border: #D7DECF;
+  --input: #CBD7C3;
+  --ring: #31563D;
+  --chart-1: #132E21;
+  --chart-2: #31563D;
+  --chart-3: #879B82;
+  --chart-4: #DCE5D7;
+  --chart-5: #44584A;
+  --sidebar: #F7F5ED;
+  --sidebar-foreground: #132E21;
+  --sidebar-primary: #132E21;
+  --sidebar-primary-foreground: #F7F5ED;
+  --sidebar-accent: #F2F5EE;
+  --sidebar-accent-foreground: #132E21;
+  --sidebar-border: #D7DECF;
+  --sidebar-ring: #31563D;
+  --cream: #F7F5ED;
+  --forest: #132E21;
 }
 
 .dark {
@@ -130,7 +130,7 @@
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
-    background: oklch(0.885 0.035 118 / 0.9);
+    background: rgba(220, 229, 215, 0.9);
   }
   button:not([disabled]),
   [role="button"]:not([disabled]) {
@@ -148,7 +148,7 @@
 .hero-veil {
   background: radial-gradient(
     50rem 26rem at 8% -8%,
-    oklch(0.9 0.03 118 / 0.55),
+    rgba(220, 229, 215, 0.55),
     transparent 62%
   );
 }
@@ -190,15 +190,15 @@
 .card-lift:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 1px 2px oklch(0.3 0.03 70 / 0.05),
-    0 12px 32px -12px oklch(0.4 0.06 60 / 0.18);
+    0 1px 2px rgba(19, 46, 33, 0.05),
+    0 12px 32px -12px rgba(19, 46, 33, 0.16);
 }
 
-/* Deep muted green band — final CTA and footer */
+/* Deep botanical band — final CTA and footer */
 .band-forest {
   background:
-    radial-gradient(56rem 22rem at 90% -30%, oklch(0.5 0.06 130 / 0.5), transparent 65%),
-    radial-gradient(44rem 20rem at 0% 130%, oklch(0.52 0.055 118 / 0.3), transparent 60%),
+    radial-gradient(56rem 22rem at 90% -30%, rgba(49, 86, 61, 0.45), transparent 65%),
+    radial-gradient(44rem 20rem at 0% 130%, rgba(135, 155, 130, 0.16), transparent 60%),
     var(--forest);
 }
 

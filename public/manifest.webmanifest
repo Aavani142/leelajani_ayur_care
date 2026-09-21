@@ -4,8 +4,8 @@
   "description": "Personalized Ayurvedic consultation for psoriasis with Dr. Anusree Leela, BAMS, Kowdiar, Thiruvananthapuram. Online and in clinic consultations.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAF8F2",
-  "theme_color": "#4A5240",
+  "background_color": "#F7F5ED",
+  "theme_color": "#132E21",
   "icons": [
     {
       "src": "/logo.png",
