@@ -1238,8 +1238,6 @@ function FinalCta() {
             </a>
           </p>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[0.8rem] text-cream/60">
-            <span>Dr. Anusree Leela, BAMS</span>
-            <span aria-hidden="true">·</span>
             <span>Leelajani Ayur Care</span>
             <span aria-hidden="true">·</span>
             <span>Kowdiar, Trivandrum</span>
