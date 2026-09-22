@@ -1310,6 +1310,7 @@ function WelcomePopup() {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({ name: "", location: "", phone: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mode, setMode] = useState("At the Kowdiar clinic");
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
@@ -1346,6 +1347,7 @@ function WelcomePopup() {
       "Location: " + values.location.trim(),
       "Phone: " + values.phone.trim(),
       "Email: " + values.email.trim(),
+      "Preferred consultation: " + mode,
     ];
     if (values.message.trim()) lines.push("Concern: " + values.message.trim());
     window.open(wa(lines.join("\n")), "_blank");
@@ -1354,6 +1356,8 @@ function WelcomePopup() {
 
   const field =
     "w-full rounded-[3px] border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/55 outline-none transition-colors duration-300 hover:border-foreground/30 focus:border-primary";
+
+  const errorText = "mt-1 block text-[0.75rem] text-destructive";
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -1408,33 +1412,81 @@ function WelcomePopup() {
                 hours. No pressure, and nothing is stored on this website.
               </p>
 
-              <form onSubmit={submit} className="mt-4 space-y-4 sm:mt-7">
+              <form onSubmit={submit} className="mt-4 space-y-4 sm:mt-7" noValidate>
                 <label className="block">
                   <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
                     Your name
                   </span>
                   <input
                     type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={values.name}
+                    onChange={(e) => set("name", e.target.value)}
                     placeholder="e.g. Rahul Sharma"
+                    aria-invalid={!!errors.name}
                     className={field + " mt-1.5"}
                   />
+                  {errors.name && <span className={errorText}>{errors.name}</span>}
                 </label>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                      Location
+                    </span>
+                    <input
+                      type="text"
+                      value={values.location}
+                      onChange={(e) => set("location", e.target.value)}
+                      placeholder="e.g. Trivandrum"
+                      aria-invalid={!!errors.location}
+                      className={field + " mt-1.5"}
+                    />
+                    {errors.location && <span className={errorText}>{errors.location}</span>}
+                  </label>
+                  <label className="block">
+                    <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                      Phone or WhatsApp number
+                    </span>
+                    <input
+                      type="tel"
+                      value={values.phone}
+                      onChange={(e) => set("phone", e.target.value)}
+                      placeholder="e.g. +91 98470 12345"
+                      aria-invalid={!!errors.phone}
+                      className={field + " mt-1.5"}
+                    />
+                    {errors.phone && <span className={errorText}>{errors.phone}</span>}
+                  </label>
+                </div>
+
                 <label className="block">
                   <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                    Phone or WhatsApp number
+                    Email
                   </span>
                   <input
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="e.g. +91 98470 12345"
+                    type="email"
+                    value={values.email}
+                    onChange={(e) => set("email", e.target.value)}
+                    placeholder="e.g. you@example.com"
+                    aria-invalid={!!errors.email}
                     className={field + " mt-1.5"}
                   />
+                  {errors.email && <span className={errorText}>{errors.email}</span>}
                 </label>
+
+                <label className="block">
+                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                    Your concern (optional)
+                  </span>
+                  <textarea
+                    rows={2}
+                    value={values.message}
+                    onChange={(e) => set("message", e.target.value)}
+                    placeholder="e.g. Psoriasis for the last two years"
+                    className={field + " mt-1.5 resize-none"}
+                  />
+                </label>
+
                 <fieldset>
                   <legend className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
                     Preferred consultation
@@ -1445,6 +1497,7 @@ function WelcomePopup() {
                         key={m}
                         type="button"
                         onClick={() => setMode(m)}
+                        aria-pressed={mode === m}
                         className={
                           "rounded-[3px] border px-4 py-2.5 text-[0.85rem] transition-colors duration-300 " +
                           (mode === m
