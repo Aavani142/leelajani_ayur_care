@@ -318,12 +318,12 @@ function Hero() {
         <div className="relative px-5 pb-8 pt-7 sm:px-6 sm:pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-1/2 lg:px-0 lg:py-0">
           <motion.div
             style={{ y: drift }}
-            className="relative mx-auto w-full lg:h-full lg:max-w-none"
+            className="relative mx-auto w-full lg:flex lg:h-full lg:max-w-none lg:flex-col lg:justify-center"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
           >
-            <div className="hero-photo group relative h-[260px] w-full overflow-hidden bg-accent sm:h-[300px] lg:h-full lg:min-h-0">
+            <div className="hero-photo group relative h-[260px] w-full overflow-hidden bg-accent sm:h-[300px] lg:ml-auto lg:h-[88%] lg:min-h-0 lg:w-[90%]">
               <img
                 src={HERO_IMG}
                 alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
