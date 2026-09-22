@@ -381,17 +381,23 @@ function TrustStrip() {
 
 function BookingForm() {
   const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
-  const [service, setService] = useState("");
-  const [time, setTime] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     track("booking_form_submit");
-    const lines = ["Appointment request", "Name: " + name, "Phone: " + phone];
-    if (service) lines.push("Service: " + service);
-    if (time) lines.push("Preferred day or time: " + time);
+    const lines = [
+      "Appointment request",
+      "Name: " + name,
+      "Location: " + location,
+      "Contact number: " + phone,
+      "Email: " + email,
+    ];
+    if (message.trim()) lines.push("Message: " + message.trim());
     window.open(wa(lines.join("\n")), "_blank");
     setSent(true);
   };
@@ -444,66 +450,78 @@ function BookingForm() {
           </p>
 
           <form onSubmit={submit} className="mt-8">
-            <label className="block">
-              <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                Your name
-              </span>
-              <input
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={field + " mt-2"}
-                placeholder="e.g. Rahul Sharma"
-              />
-            </label>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Name <span className="text-primary" aria-hidden="true">*</span>
+                  <span className="sr-only">, required</span>
+                </span>
+                <input
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={field + " mt-2"}
+                  placeholder="Enter your name"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Location <span className="text-primary" aria-hidden="true">*</span>
+                  <span className="sr-only">, required</span>
+                </span>
+                <input
+                  required
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className={field + " mt-2"}
+                  placeholder="Enter your location"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Contact number <span className="text-primary" aria-hidden="true">*</span>
+                  <span className="sr-only">, required</span>
+                </span>
+                <input
+                  required
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className={field + " mt-2"}
+                  placeholder="Enter your contact number"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  Email <span className="text-primary" aria-hidden="true">*</span>
+                  <span className="sr-only">, required</span>
+                </span>
+                <input
+                  required
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={field + " mt-2"}
+                  placeholder="Enter your email address"
+                />
+              </label>
+            </div>
 
             <label className="mt-5 block">
               <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                Phone number
+                Message
               </span>
-              <input
-                required
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className={field + " mt-2"}
-                placeholder="e.g. +91 98470 12345"
+              <textarea
+                rows={3}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className={field + " mt-2 resize-none"}
+                placeholder="Tell us anything you'd like us to know"
               />
             </label>
-
-            <div className="mt-5 grid gap-5 sm:grid-cols-2">
-              <label className="block">
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Service needed (optional)
-                </span>
-                <select
-                  value={service}
-                  onChange={(e) => setService(e.target.value)}
-                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%2331553D%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
-                >
-                  <option value="">Select a service…</option>
-                  <option>Psoriasis consultation</option>
-                  <option>Online video consultation</option>
-                  <option>Follow up review</option>
-                </select>
-              </label>
-              <label className="block">
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Preferred day or time (optional)
-                </span>
-                <select
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%2331553D%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
-                >
-                  <option value="">Select preferred time…</option>
-                  <option>Morning, 7 AM to 12 PM</option>
-                  <option>Afternoon, 12 PM to 4 PM</option>
-                  <option>Evening, 4 PM to 7 PM</option>
-                  <option>Any time</option>
-                </select>
-              </label>
-            </div>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <button type="submit" className={btnPrimary + " flex-1"}>
