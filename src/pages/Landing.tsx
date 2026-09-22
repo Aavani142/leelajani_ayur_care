@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Leaf, MapPin, Stethoscope, Video, type LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
 /* Brand assets (uploaded clinic files, do not replace)                */
@@ -262,18 +263,22 @@ function HeroBadge({
   title,
   body,
   className = "",
+  wide = false,
 }: {
   icon: LucideIcon;
   title: string;
   body: string;
   className?: string;
+  /** Wider, roomier card (title on one line). Used by the Kowdiar badge only. */
+  wide?: boolean;
 }) {
   return (
     <div
-      className={
-        "pointer-events-none flex items-center gap-3 rounded-[3px] border border-border/80 bg-cream/95 px-3.5 py-2.5 shadow-[0_12px_30px_-20px_rgba(19,46,33,0.5)] " +
-        className
-      }
+      className={cn(
+        "pointer-events-none flex items-center gap-3 rounded-[3px] border border-border/80 bg-cream/95 px-3.5 py-2.5 shadow-[0_12px_30px_-20px_rgba(19,46,33,0.5)]",
+        wide && "w-max min-w-[250px] max-w-[300px] px-[22px] py-[18px]",
+        className,
+      )}
     >
       <span
         aria-hidden="true"
@@ -282,7 +287,12 @@ function HeroBadge({
         <Icon className="h-4 w-4" strokeWidth={1.75} />
       </span>
       <span className="min-w-0">
-        <span className="block text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-foreground">
+        <span
+          className={cn(
+            "block text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-foreground",
+            wide && "whitespace-nowrap",
+          )}
+        >
           {title}
         </span>
         <span className="mt-0.5 block text-[0.72rem] leading-snug text-muted-foreground">
@@ -400,6 +410,7 @@ function Hero() {
                 className="absolute right-4 top-3 hidden sm:block lg:right-8 lg:top-12"
               />
               <HeroBadge
+                wide
                 icon={HERO_BADGES[3].icon}
                 title={HERO_BADGES[3].title}
                 body={HERO_BADGES[3].body}
