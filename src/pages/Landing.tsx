@@ -276,7 +276,7 @@ function HeroBadge({
     <div
       className={cn(
         "pointer-events-none flex items-center gap-3 rounded-[3px] border border-border/80 bg-cream/95 px-3.5 py-2.5 shadow-[0_12px_30px_-20px_rgba(19,46,33,0.5)]",
-        wide && "w-max min-w-[250px] max-w-[300px] px-[22px] py-[18px]",
+        wide && "w-[280px] px-[22px] py-[18px]",
         className,
       )}
     >
@@ -295,7 +295,7 @@ function HeroBadge({
         >
           {title}
         </span>
-        <span className="mt-0.5 block text-[0.72rem] leading-snug text-muted-foreground">
+        <span className="mt-0.5 block break-words text-[0.72rem] leading-snug text-muted-foreground">
           {body}
         </span>
       </span>
@@ -418,8 +418,9 @@ function Hero() {
               />
             </div>
 
-            {/* Mobile: badges become a compact 2-column stack below the image */}
-            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:hidden">
+            {/* Mobile: badges stack neatly below the image (single column so the
+                long location word always fits inside the card) */}
+            <div className="mx-auto mt-4 flex w-full max-w-[340px] flex-col gap-2.5 sm:hidden">
               {HERO_BADGES.map((b) => (
                 <HeroBadge key={b.title} icon={b.icon} title={b.title} body={b.body} />
               ))}
