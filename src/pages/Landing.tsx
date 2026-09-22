@@ -1529,7 +1529,7 @@ function WelcomePopup() {
                       type="text"
                       value={values.name}
                       onChange={(e) => set("name", e.target.value)}
-                      placeholder="e.g. Rahul Sharma"
+                      placeholder="e.g. Arjun Menon"
                       aria-invalid={!!errors.name}
                       className={field + " popup-field mt-1.5"}
                     />
