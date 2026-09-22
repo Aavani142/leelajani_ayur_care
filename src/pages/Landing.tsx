@@ -18,6 +18,11 @@ import {
 /* ------------------------------------------------------------------ */
 
 const LOGO = "/assets/Leelajani-Logo.png";
+/* Trimmed mark-only variant of the official logo (no redesign, no effects).
+   The original 500px canvas carries the mark in a narrow band, which made
+   the rendered logo look small; the trimmed file renders the same artwork
+   much larger inside a compact bar. */
+const LOGO_MARK = "/assets/Leelajani-Logo-trim.png";
 const DOC_PHOTO = "/assets/Le.webp";
 /* Hero photograph, from the clinic's own uploaded assets */
 const HERO_IMG = "/assets/24ccabb69f77080c09aa4c72e8176445.jpg";
@@ -157,15 +162,15 @@ function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex min-h-24 max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:min-h-[7.5rem] sm:px-6">
-        <a href="#" aria-label="Leelajani Ayur Care, back to top" className="shrink-0">
+    <header className="sticky top-0 z-40 h-20 border-b border-border bg-cream/95 backdrop-blur-sm">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <a href="#" aria-label="Leelajani Ayur Care, back to top" className="flex shrink-0 items-center">
           <img
-            src={LOGO}
+            src={LOGO_MARK}
             alt="Leelajani Ayur Care"
-            className="h-20 w-auto object-contain sm:h-[5.5rem] lg:h-24"
-            width={240}
-            height={96}
+            className="h-auto w-32 object-contain sm:w-36 lg:w-[9.5rem]"
+            width={152}
+            height={50}
           />
         </a>
 
@@ -250,13 +255,13 @@ function Hero() {
   const drift = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -26]);
 
   return (
-    <section className="relative overflow-hidden bg-cream">
+    <section className="relative overflow-hidden bg-cream lg:h-[calc(100vh-5rem)] lg:min-h-[37.5rem]">
       <div className="hero-veil pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="grid lg:h-full lg:grid-cols-[1.05fr_0.95fr]">
         {/* Copy */}
         <motion.div
-          className="flex flex-col justify-center px-6 pb-14 pt-10 sm:pt-14 lg:pb-28 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-20 lg:pt-16"
+          className="flex flex-col justify-center px-6 pb-14 pt-10 sm:pt-14 lg:pb-12 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-16 lg:pt-4"
           variants={stagger}
           initial="hidden"
           animate="show"
@@ -297,7 +302,7 @@ function Hero() {
           <motion.div
             variants={loadChild}
             custom={4}
-            className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.8rem] text-muted-foreground"
+            className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.85rem] text-muted-foreground sm:text-[0.9rem]"
           >
             <span>Kowdiar, Trivandrum</span>
             <span aria-hidden="true" className="h-3 w-px bg-border" />
@@ -305,23 +310,25 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* The clinic's own hero photograph, presented clean: no overlays, no frames */}
-        <div className="relative px-6 pb-16 sm:pb-20 lg:py-28 lg:pl-0">
+        {/* The clinic's own hero photograph, presented clean: no overlays, no frames.
+            On desktop the photo fills the viewport-height column (object-cover crop,
+            never distorted); on mobile it keeps its natural 2:3 ratio. */}
+        <div className="relative flex items-end justify-center px-6 pb-10 pt-2 sm:pb-14 lg:items-center lg:justify-end lg:py-6 lg:pl-0 lg:pr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
           <motion.div
             style={{ y: drift }}
-            className="relative mx-auto max-w-[17rem] sm:max-w-sm lg:ml-auto lg:mr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:max-w-[21rem]"
+            className="relative mx-auto w-full max-w-[17rem] sm:max-w-sm lg:flex lg:h-full lg:max-w-[min(100%,34rem)] lg:flex-col"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
           >
-            <div className="group relative aspect-[2/3] overflow-hidden bg-accent">
+            <div className="group relative aspect-[2/3] min-h-0 w-full overflow-hidden bg-accent lg:flex-1">
               <img
                 src={HERO_IMG}
                 alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
-                className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]"
+                className="h-full w-full object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]"
               />
             </div>
-            <p className="mt-4 text-center text-[0.9rem] leading-relaxed text-muted-foreground/80 sm:text-[0.95rem]">
+            <p className="mt-4 shrink-0 text-center text-[0.9rem] leading-relaxed text-muted-foreground/80 sm:text-[0.95rem]">
               Leelajani Ayur Care, Kowdiar, Trivandrum.
             </p>
           </motion.div>
@@ -1295,11 +1302,14 @@ function MobileCta() {
 
 const POPUP_DELAY_MS = 2500;
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/* Accepts 9876543210 and +91 9876543210 style numbers, spaces allowed */
+const PHONE_RE = /^(?:\+91[\s-]?|0)?[1-9][0-9\s-]{8,11}[0-9]$/;
+
 function WelcomePopup() {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [mode, setMode] = useState("");
+  const [values, setValues] = useState({ name: "", location: "", phone: "", email: "", message: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
@@ -1310,11 +1320,34 @@ function WelcomePopup() {
     return () => window.clearTimeout(t);
   }, []);
 
+  const set = (key: keyof typeof values, value: string) => {
+    setValues((v) => ({ ...v, [key]: value }));
+    if (errors[key]) setErrors((e) => ({ ...e, [key]: "" }));
+  };
+
+  const validate = () => {
+    const next: Record<string, string> = {};
+    if (!values.name.trim()) next.name = "Please enter your name.";
+    if (!values.location.trim()) next.location = "Please enter your location.";
+    if (!PHONE_RE.test(values.phone.trim())) next.phone = "Please enter your phone number.";
+    if (!values.email.trim()) next.email = "Please enter your email address.";
+    else if (!EMAIL_RE.test(values.email.trim())) next.email = "Please enter a valid email address.";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
   const submit = (e: FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
     track("popup_form_submit");
-    const lines = ["Appointment request (from the popup)", "Name: " + name, "Phone: " + phone];
-    if (mode) lines.push("Preferred consultation: " + mode);
+    const lines = [
+      "Callback request",
+      "Name: " + values.name.trim(),
+      "Location: " + values.location.trim(),
+      "Phone: " + values.phone.trim(),
+      "Email: " + values.email.trim(),
+    ];
+    if (values.message.trim()) lines.push("Concern: " + values.message.trim());
     window.open(wa(lines.join("\n")), "_blank");
     setSent(true);
   };
