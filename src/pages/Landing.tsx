@@ -12,6 +12,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Leaf, MapPin, Stethoscope, Video, type LucideIcon } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /* Brand assets (uploaded clinic files, do not replace)                */
@@ -24,8 +25,8 @@ const LOGO = "/assets/Leelajani-Logo.png";
    much larger inside a compact bar. */
 const LOGO_MARK = "/assets/Leelajani-Logo-trim.png";
 const DOC_PHOTO = "/assets/Le.webp";
-/* Hero photograph, from the clinic's own uploaded assets */
-const HERO_IMG = "/assets/24ccabb69f77080c09aa4c72e8176445.jpg";
+/* Hero photograph, the clinic's own uploaded asset */
+const HERO_IMG = "/assets/f85e7c72-d9f2-4773-9eb7-0ebf42e66909.png";
 /* Traditional Ayurvedic therapy table (droni), © Gabi, CC BY 2.0 via Wikimedia Commons */
 const THERAPY = "/assets/ayurveda-therapy.jpg";
 
@@ -246,6 +247,53 @@ function Nav() {
 }
 
 /* ================================================================== */
+/* HERO BADGES — quiet information cards floating around the image    */
+/* ================================================================== */
+
+const HERO_BADGES: { icon: LucideIcon; title: string; body: string }[] = [
+  { icon: Stethoscope, title: "Doctor Led Care", body: "Personalised Ayurvedic guidance" },
+  { icon: Leaf, title: "Psoriasis Care", body: "Focused Ayurvedic approach" },
+  { icon: Video, title: "Online Consultation", body: "Consult from anywhere" },
+  { icon: MapPin, title: "Kowdiar Clinic", body: "Thiruvananthapuram" },
+];
+
+function HeroBadge({
+  icon: Icon,
+  title,
+  body,
+  className = "",
+}: {
+  icon: LucideIcon;
+  title: string;
+  body: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={
+        "pointer-events-none flex items-center gap-3 rounded-[3px] border border-border/80 bg-cream/95 px-3.5 py-2.5 shadow-[0_12px_30px_-20px_rgba(19,46,33,0.5)] " +
+        className
+      }
+    >
+      <span
+        aria-hidden="true"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[3px] bg-accent text-primary"
+      >
+        <Icon className="h-4 w-4" strokeWidth={1.75} />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[0.66rem] font-semibold uppercase tracking-[0.12em] text-foreground">
+          {title}
+        </span>
+        <span className="mt-0.5 block text-[0.72rem] leading-snug text-muted-foreground">
+          {body}
+        </span>
+      </span>
+    </div>
+  );
+}
+
+/* ================================================================== */
 /* 01 HERO  (editorial still life, no doctor portrait here)           */
 /* ================================================================== */
 
@@ -323,14 +371,50 @@ function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
           >
-            <div className="hero-photo group relative w-full max-w-full overflow-hidden bg-accent lg:ml-auto lg:h-[88%] lg:min-h-0 lg:w-[90%]">
-              <img
-                src={HERO_IMG}
-                alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
-                className="block aspect-[16/10] h-auto w-full max-w-full object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03] lg:aspect-auto lg:h-full"
+            <div className="relative mx-auto w-full max-w-full lg:ml-auto lg:h-[80%] lg:min-h-0 lg:w-[84%]">
+              <div className="hero-photo group relative w-full max-w-full overflow-hidden rounded-[3px] bg-accent lg:h-full">
+                <img
+                  src={HERO_IMG}
+                  alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
+                  className="block aspect-[6/5] h-auto w-full max-w-full object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03] lg:aspect-auto lg:h-full"
+                />
+              </div>
+
+              {/* Floating information badges — tablet/desktop: around the image */}
+              <HeroBadge
+                icon={HERO_BADGES[0].icon}
+                title={HERO_BADGES[0].title}
+                body={HERO_BADGES[0].body}
+                className="absolute -top-4 left-3 hidden sm:block lg:-top-5 lg:left-[-2.5rem]"
+              />
+              <HeroBadge
+                icon={HERO_BADGES[1].icon}
+                title={HERO_BADGES[1].title}
+                body={HERO_BADGES[1].body}
+                className="absolute -left-2 bottom-20 hidden sm:block lg:bottom-24 lg:left-[-3.5rem]"
+              />
+              <HeroBadge
+                icon={HERO_BADGES[2].icon}
+                title={HERO_BADGES[2].title}
+                body={HERO_BADGES[2].body}
+                className="absolute right-4 top-3 hidden sm:block lg:right-8 lg:top-12"
+              />
+              <HeroBadge
+                icon={HERO_BADGES[3].icon}
+                title={HERO_BADGES[3].title}
+                body={HERO_BADGES[3].body}
+                className="absolute -bottom-5 right-8 hidden sm:block lg:-bottom-6 lg:right-16"
               />
             </div>
-            <p className="mt-3 text-[0.85rem] leading-relaxed text-muted-foreground/80 sm:text-[0.9rem] lg:hidden">
+
+            {/* Mobile: badges become a compact 2-column stack below the image */}
+            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:hidden">
+              {HERO_BADGES.map((b) => (
+                <HeroBadge key={b.title} icon={b.icon} title={b.title} body={b.body} />
+              ))}
+            </div>
+
+            <p className="mt-3.5 text-[0.85rem] leading-relaxed text-muted-foreground/80 sm:text-[0.9rem] lg:hidden">
               Leelajani Ayur Care, Kowdiar, Trivandrum.
             </p>
           </motion.div>
