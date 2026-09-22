@@ -105,7 +105,7 @@ function Reveal({
 /* ------------------------------------------------------------------ */
 
 const btnBase =
-  "inline-flex items-center justify-center rounded-[3px] px-7 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 active:scale-[0.98]";
+  "inline-flex items-center justify-center gap-2.5 rounded-[3px] px-7 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 active:scale-[0.98]";
 
 const btnPrimary = `${btnBase} bg-primary text-primary-foreground hover:bg-primary/90`;
 const btnOutline = `${btnBase} border border-foreground/25 text-foreground hover:border-foreground/60`;
@@ -115,6 +115,19 @@ const btnOnDark = `${btnBase} border border-cream/40 text-cream hover:bg-cream h
 /* Official WhatsApp glyph (the real brand mark, not an illustration)  */
 /* Rendered from the standard WhatsApp path data, single color.        */
 /* ------------------------------------------------------------------ */
+
+export function PhoneIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.25 1.01l-2.2 2.21z" />
+    </svg>
+  );
+}
 
 export function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -145,14 +158,14 @@ function Nav() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:h-24 sm:px-6">
+      <div className="mx-auto flex min-h-24 max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:min-h-[7.5rem] sm:px-6">
         <a href="#" aria-label="Leelajani Ayur Care, back to top" className="shrink-0">
           <img
             src={LOGO}
             alt="Leelajani Ayur Care"
-            className="h-16 w-auto object-contain sm:h-[4.75rem] lg:h-[5.5rem]"
-            width={220}
-            height={88}
+            className="h-20 w-auto object-contain sm:h-[5.5rem] lg:h-24"
+            width={240}
+            height={96}
           />
         </a>
 
@@ -164,7 +177,7 @@ function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4 sm:gap-5">
+        <div className="flex shrink-0 items-center gap-4 sm:gap-5">
           <a
             href={"tel:" + PHONE_TEL}
             className="link-quiet hidden text-[0.85rem] text-muted-foreground hover:text-foreground xl:block"
@@ -243,7 +256,7 @@ function Hero() {
       <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
         {/* Copy */}
         <motion.div
-          className="flex flex-col justify-center px-6 pb-14 pt-10 sm:pt-14 lg:py-32 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-20"
+          className="flex flex-col justify-center px-6 pb-14 pt-10 sm:pt-14 lg:pb-28 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-20 lg:pt-16"
           variants={stagger}
           initial="hidden"
           animate="show"
@@ -271,11 +284,11 @@ function Hero() {
             at Leelajani Ayur Care in Kowdiar or online.
           </motion.p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary + " flex-1 sm:flex-none"}>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+            <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary + " w-full sm:w-auto"}>
               Book a consultation
             </a>
-            <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline + " flex-1 sm:flex-none"}>
+            <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline + " w-full sm:w-auto"}>
               <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
               WhatsApp us
             </a>
@@ -293,7 +306,7 @@ function Hero() {
         </motion.div>
 
         {/* The clinic's own hero photograph, presented clean: no overlays, no frames */}
-        <div className="relative px-6 pb-16 sm:pb-20 lg:py-20 lg:pl-0">
+        <div className="relative px-6 pb-16 sm:pb-20 lg:py-28 lg:pl-0">
           <motion.div
             style={{ y: drift }}
             className="relative mx-auto max-w-[17rem] sm:max-w-sm lg:ml-auto lg:mr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:max-w-[21rem]"
@@ -308,7 +321,7 @@ function Hero() {
                 className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]"
               />
             </div>
-            <p className="mt-4 text-center text-[0.78rem] text-muted-foreground/80">
+            <p className="mt-4 text-center text-[0.9rem] leading-relaxed text-muted-foreground/80 sm:text-[0.95rem]">
               Leelajani Ayur Care, Kowdiar, Trivandrum.
             </p>
           </motion.div>
@@ -457,7 +470,7 @@ function BookingForm() {
                 <select
                   value={service}
                   onChange={(e) => setService(e.target.value)}
-                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23647052%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
+                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%2331553D%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
                 >
                   <option value="">Select a service…</option>
                   <option>Psoriasis consultation</option>
@@ -472,7 +485,7 @@ function BookingForm() {
                 <select
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%23647052%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
+                  className={field + " mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%228%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22%20stroke%3D%22%2331553D%22%20stroke-width%3D%221.5%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10"}
                 >
                   <option value="">Select preferred time…</option>
                   <option>Morning, 7 AM to 12 PM</option>
@@ -550,19 +563,22 @@ function Doctor() {
           <div className="relative grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-0">
             {/* portrait, breaks the grid upward and to the left */}
             <Reveal className="relative z-10 lg:-mt-10 lg:-mr-16">
-              <div
-                aria-hidden="true"
-                className="absolute -left-3 -top-3 hidden h-full w-full border border-foreground/20 lg:block"
-              />
-              <div className="group relative overflow-hidden">
-                <img
-                  src={DOC_PHOTO}
-                  alt="Dr. Anusree Leela, Chief Physician at Leelajani Ayur Care, Kowdiar"
-                  loading="lazy"
-                  className="aspect-[3/4] w-full max-w-md object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
+              <div className="relative">
+                {/* offset frame wraps ONLY the photo, never the caption text */}
+                <div
+                  aria-hidden="true"
+                  className="absolute -left-3 -top-3 hidden h-full w-full border border-foreground/20 lg:block"
                 />
+                <div className="group relative overflow-hidden">
+                  <img
+                    src={DOC_PHOTO}
+                    alt="Dr. Anusree Leela, Chief Physician at Leelajani Ayur Care, Kowdiar"
+                    loading="lazy"
+                    className="aspect-[3/4] w-full max-w-md object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
+                  />
+                </div>
               </div>
-              <p className="mt-3 text-[0.78rem] text-muted-foreground">
+              <p className="mt-5 text-[0.9rem] leading-relaxed text-muted-foreground sm:text-[0.95rem] lg:text-base">
                 Dr. Anusree Leela, BAMS, at the Kowdiar clinic.
               </p>
             </Reveal>
@@ -592,7 +608,7 @@ function Doctor() {
               <Reveal>
                 <ul className="mt-8 max-w-lg divide-y divide-border border-y border-border">
                   {DOCTOR_POINTS.map((p) => (
-                    <li key={p} className="py-3 text-[0.9rem] text-foreground">
+                    <li key={p} className="py-4 text-[0.95rem] text-foreground sm:text-base">
                       {p}
                     </li>
                   ))}
@@ -1053,7 +1069,7 @@ function Faq() {
 }
 
 /* ================================================================== */
-/* 10 FINAL CTA (terracotta moment)                                   */
+/* 10 FINAL CTA                                                       */
 /* ================================================================== */
 
 function FinalCta() {
@@ -1089,15 +1105,15 @@ function FinalCta() {
             </a>
           </div>
           <p className="mt-6 text-[0.85rem] text-cream/60">
-              Prefer to talk?{" "}
-              <a
-                href={"tel:" + PHONE_TEL}
-                onClick={() => track("final_call_click")}
-                className="link-quiet text-cream"
-              >
-                Call {PHONE_DISPLAY}
-              </a>
-            </p>
+            Prefer to talk?{" "}
+            <a
+              href={"tel:" + PHONE_TEL}
+              onClick={() => track("final_call_click")}
+              className="link-quiet text-cream"
+            >
+              Call {PHONE_DISPLAY}
+            </a>
+          </p>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[0.8rem] text-cream/60">
             <span>Dr. Anusree Leela, BAMS</span>
             <span aria-hidden="true">·</span>
@@ -1192,31 +1208,47 @@ function Footer() {
 }
 
 /* ================================================================== */
-/* FLOATING WHATSAPP BUTTON  (official glyph, circular, fixed)         */
+/* FLOATING CONTACT  (call above WhatsApp, official glyphs, fixed)     */
 /* ================================================================== */
 
-function FloatingWhatsApp() {
+function FloatingContact() {
   return (
-    <a
-      href={WA_MAIN}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Chat with us on WhatsApp"
-      onClick={() => track("floating_whatsapp_click")}
-      className="group fixed bottom-5 right-5 z-50 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_10px_28px_rgba(37,211,102,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#128C7E] active:scale-100 lg:flex"
-    >
-      <WhatsAppIcon className="h-7 w-7" />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[calc(100%+12px)] translate-x-1 whitespace-nowrap rounded-[3px] bg-foreground px-3 py-1.5 text-[0.72rem] font-medium tracking-wide text-cream opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+    <div className="fixed bottom-5 right-5 z-50 hidden flex-col items-center gap-4 lg:flex">
+      <a
+        href={"tel:" + PHONE_TEL}
+        aria-label="Call the clinic"
+        onClick={() => track("floating_call_click")}
+        className="group flex h-14 w-14 items-center justify-center rounded-full bg-primary text-cream shadow-[0_8px_24px_rgba(19,46,33,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_10px_28px_rgba(19,46,33,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:scale-100"
       >
-        Chat with us
-      </span>
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/20"
-      />
-    </a>
+        <PhoneIcon className="h-6 w-6" />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[calc(100%+12px)] translate-x-1 whitespace-nowrap rounded-[3px] bg-foreground px-3 py-1.5 text-[0.72rem] font-medium tracking-wide text-cream opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+        >
+          Call the clinic
+        </span>
+      </a>
+      <a
+        href={WA_MAIN}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Chat with us on WhatsApp"
+        onClick={() => track("floating_whatsapp_click")}
+        className="group flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_10px_28px_rgba(37,211,102,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#128C7E] active:scale-100"
+      >
+        <WhatsAppIcon className="h-7 w-7" />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[calc(100%+12px)] translate-x-1 whitespace-nowrap rounded-[3px] bg-foreground px-3 py-1.5 text-[0.72rem] font-medium tracking-wide text-cream opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+        >
+          Chat with us
+        </span>
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/20"
+        />
+      </a>
+    </div>
   );
 }
 
@@ -1241,8 +1273,8 @@ function MobileCta() {
         onClick={() => track("sticky_whatsapp_click")}
         className="flex h-14 items-center justify-center gap-2 border-x border-border bg-[#25D366]/10 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#31563D]"
       >
-        <WhatsAppIcon className="h-5 w-5" />
-        WhatsApp
+        <WhatsAppIcon className="h-5 w-5 shrink-0" />
+        <span className="truncate">WhatsApp</span>
       </a>
       <a
         href="#book"
@@ -1256,7 +1288,9 @@ function MobileCta() {
 }
 
 /* ================================================================== */
-/* WELCOME POPUP  (opens once per visit, a short while after load)     */
+/* WELCOME POPUP  (opens on load, a short while after the hero settles) */
+/* Mobile: a compact bottom sheet at roughly half the viewport height.  */
+/* Desktop/tablet: centered, as before.                                 */
 /* ================================================================== */
 
 const POPUP_DELAY_MS = 2500;
@@ -1291,7 +1325,12 @@ function WelcomePopup() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className="max-w-md gap-0 rounded-[3px] border-border bg-cream p-0 sm:max-w-lg"
+        className="max-w-full gap-0 rounded-t-[3px] rounded-b-none border-border bg-cream p-0 sm:max-w-lg sm:rounded-[3px] sm:rounded-b-[3px]
+          top-auto bottom-0 left-0 h-auto max-h-[52dvh] w-full translate-x-0 translate-y-0
+          data-[state=open]:slide-in-from-bottom-6 data-[state=open]:zoom-in-95
+          overflow-hidden
+          sm:top-[50%] sm:bottom-auto sm:left-[50%] sm:max-h-[85vh] sm:h-auto sm:-translate-x-[50%] sm:-translate-y-[50%]
+          sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=closed]:zoom-out-95"
         showCloseButton
       >
         <DialogTitle className="sr-only">Request a consultation</DialogTitle>
@@ -1299,114 +1338,116 @@ function WelcomePopup() {
           Share your name and phone number and the clinic team will call you back.
         </DialogDescription>
 
-        {sent ? (
-          <div className="p-8 text-center sm:p-10">
-            <p className="font-display text-2xl text-foreground">
-              Thank you. Your request has been received.
-            </p>
-            <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-muted-foreground">
-              Our team will call you back to confirm your slot. You can also
-              continue on WhatsApp right away.
-            </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
-              <a
-                href={WA_MAIN}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => track("popup_success_whatsapp_click")}
-                className={btnPrimary}
-              >
-                <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
-                Continue on WhatsApp
-              </a>
-              <button type="button" onClick={() => setOpen(false)} className={btnOutline}>
-                Close
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="p-8 sm:p-10">
-            <p className="eyebrow">Leelajani Ayur Care</p>
-            <p className="font-display mt-3 text-[clamp(1.6rem,3vw,2.1rem)] leading-tight text-foreground">
-              Thinking about a consultation?
-            </p>
-            <p className="mt-3 text-[0.92rem] leading-relaxed text-muted-foreground">
-              Leave your number and our team will call you back during clinic
-              hours. No pressure, and nothing is stored on this website.
-            </p>
-
-            <form onSubmit={submit} className="mt-7 space-y-4">
-              <label className="block">
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                  Your name
-                </span>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Rahul Sharma"
-                  className={field + " mt-2"}
-                />
-              </label>
-              <label className="block">
-                <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                  Phone or WhatsApp number
-                </span>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="e.g. +91 98470 12345"
-                  className={field + " mt-2"}
-                />
-              </label>
-              <fieldset>
-                <legend className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                  Preferred consultation
-                </legend>
-                <div className="mt-2 grid grid-cols-2 gap-3">
-                  {["At the Kowdiar clinic", "Online"].map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => setMode(m)}
-                      className={
-                        "rounded-[3px] border px-4 py-3 text-[0.85rem] transition-colors duration-300 " +
-                        (mode === m
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-input bg-card text-foreground hover:border-foreground/40")
-                      }
-                    >
-                      {m}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div className="flex flex-col gap-3 pt-1 sm:flex-row">
-                <button type="submit" className={btnPrimary + " flex-1"}>
-                  Request a callback
-                </button>
+        <div className="max-h-[52dvh] overflow-y-auto overscroll-contain sm:max-h-[85vh]">
+          {sent ? (
+            <div className="p-6 text-center sm:p-10">
+              <p className="font-display text-2xl text-foreground">
+                Thank you. Your request has been received.
+              </p>
+              <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-muted-foreground">
+                Our team will call you back to confirm your slot. You can also
+                continue on WhatsApp right away.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
                 <a
                   href={WA_MAIN}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => track("popup_whatsapp_click")}
-                  className={btnOutline + " flex-1"}
+                  onClick={() => track("popup_success_whatsapp_click")}
+                  className={btnPrimary}
                 >
                   <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
-                  WhatsApp instead
+                  Continue on WhatsApp
                 </a>
+                <button type="button" onClick={() => setOpen(false)} className={btnOutline}>
+                  Close
+                </button>
               </div>
-
-              <p className="pt-1 text-center text-[0.75rem] leading-relaxed text-muted-foreground">
-                We reply during clinic hours, Monday to Saturday, 7 AM to 7 PM.
+            </div>
+          ) : (
+            <div className="p-6 sm:p-10">
+              <p className="eyebrow">Leelajani Ayur Care</p>
+              <p className="font-display mt-2 text-[1.4rem] leading-tight text-foreground sm:mt-3 sm:text-[clamp(1.6rem,3vw,2.1rem)]">
+                Thinking about a consultation?
               </p>
-            </form>
-          </div>
-        )}
+              <p className="mt-2 text-[0.88rem] leading-relaxed text-muted-foreground sm:mt-3 sm:text-[0.92rem]">
+                Leave your number and our team will call you back during clinic
+                hours. No pressure, and nothing is stored on this website.
+              </p>
+
+              <form onSubmit={submit} className="mt-4 space-y-4 sm:mt-7">
+                <label className="block">
+                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                    Your name
+                  </span>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Rahul Sharma"
+                    className={field + " mt-1.5"}
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                    Phone or WhatsApp number
+                  </span>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="e.g. +91 98470 12345"
+                    className={field + " mt-1.5"}
+                  />
+                </label>
+                <fieldset>
+                  <legend className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
+                    Preferred consultation
+                  </legend>
+                  <div className="mt-2 grid grid-cols-2 gap-3">
+                    {["At the Kowdiar clinic", "Online"].map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => setMode(m)}
+                        className={
+                          "rounded-[3px] border px-4 py-2.5 text-[0.85rem] transition-colors duration-300 " +
+                          (mode === m
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-input bg-card text-foreground hover:border-foreground/40")
+                        }
+                      >
+                        {m}
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <div className="flex flex-col gap-3 pt-1 sm:flex-row">
+                  <button type="submit" className={btnPrimary + " flex-1"}>
+                    Request a callback
+                  </button>
+                  <a
+                    href={WA_MAIN}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => track("popup_whatsapp_click")}
+                    className={btnOutline + " flex-1"}
+                  >
+                    <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
+                    WhatsApp instead
+                  </a>
+                </div>
+
+                <p className="pt-1 text-center text-[0.75rem] leading-relaxed text-muted-foreground">
+                  We reply during clinic hours, Monday to Saturday, 7 AM to 7 PM.
+                </p>
+              </form>
+            </div>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -1414,7 +1455,7 @@ function WelcomePopup() {
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background pb-14 lg:pb-0">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <Nav />
       <main>
         <Hero />
@@ -1430,7 +1471,7 @@ export default function Landing() {
       </main>
       <Footer />
       <MobileCta />
-      <FloatingWhatsApp />
+      <FloatingContact />
       <WelcomePopup />
     </div>
   );
