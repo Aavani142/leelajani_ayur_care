@@ -268,7 +268,4 @@ html {
   .hero-fit .hero-title {
     font-size: clamp(2.2rem, 10vw, 2.9rem);
   }
-  .hero-fit .hero-photo {
-    height: 200px;
-  }
 }

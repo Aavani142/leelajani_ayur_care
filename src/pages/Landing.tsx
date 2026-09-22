@@ -323,11 +323,11 @@ function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
           >
-            <div className="hero-photo group relative h-[260px] w-full overflow-hidden bg-accent sm:h-[300px] lg:ml-auto lg:h-[88%] lg:min-h-0 lg:w-[90%]">
+            <div className="hero-photo group relative w-full max-w-full overflow-hidden bg-accent lg:ml-auto lg:h-[88%] lg:min-h-0 lg:w-[90%]">
               <img
                 src={HERO_IMG}
                 alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
-                className="h-full w-full object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]"
+                className="block aspect-[16/10] h-auto w-full max-w-full object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03] lg:aspect-auto lg:h-full"
               />
             </div>
             <p className="mt-3 text-[0.85rem] leading-relaxed text-muted-foreground/80 sm:text-[0.9rem] lg:hidden">
