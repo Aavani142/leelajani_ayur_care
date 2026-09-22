@@ -162,8 +162,8 @@ function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 h-20 border-b border-border bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+    <header className="sticky top-0 z-40 h-[78px] border-b border-border bg-cream/95 backdrop-blur-sm">
+      <div className="mx-auto flex h-[78px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <a href="#" aria-label="Leelajani Ayur Care, back to top" className="flex shrink-0 items-center">
           <img
             src={LOGO_MARK}
@@ -252,83 +252,85 @@ function Nav() {
 function Hero() {
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  const drift = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -26]);
+  const drift = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -18]);
 
   return (
-    <section className="relative overflow-hidden bg-cream lg:h-[calc(100vh-5rem)] lg:min-h-[37.5rem]">
+    <section className="hero-fit relative overflow-hidden bg-cream lg:h-[calc(100vh-4.875rem)] lg:min-h-[33rem]">
       <div className="hero-veil pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <div className="grid lg:h-full lg:grid-cols-[1.05fr_0.95fr]">
-        {/* Copy */}
+      <div className="grid lg:relative lg:block lg:h-full">
+        {/* Copy — vertically centred, width controlled, never overflows the fold */}
         <motion.div
-          className="flex flex-col justify-center px-6 pb-14 pt-10 sm:pt-14 lg:pb-12 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-16 lg:pt-4"
+          className="flex flex-col justify-center px-5 pb-2 pt-8 sm:px-6 sm:pt-10 lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-1/2 lg:py-0 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pr-16"
           variants={stagger}
           initial="hidden"
           animate="show"
         >
-          <motion.p variants={loadChild} custom={0} className="eyebrow">
-            Psoriasis &amp; chronic skin care
-          </motion.p>
+          <div className="max-w-[560px] lg:py-6">
+            <motion.p variants={loadChild} custom={0} className="eyebrow">
+              Psoriasis &amp; chronic skin care
+            </motion.p>
 
-          <motion.h1
-            variants={loadChild}
-            custom={1}
-            className="font-display mt-5 text-[clamp(2.6rem,6vw,4.6rem)] leading-[1.04] text-foreground"
-          >
-            Psoriasis is personal.
-            <br />
-            <em className="text-[#31563D]">Your care should be too.</em>
-          </motion.h1>
+            <motion.h1
+              variants={loadChild}
+              custom={1}
+              className="hero-title font-display mt-4 text-[clamp(2.5rem,10vw,4.75rem)] leading-[0.98] text-foreground lg:mt-5 lg:text-[clamp(3rem,4.9vw,4.6rem)] lg:leading-[1.02]"
+            >
+              Psoriasis is personal.
+              <br />
+              <em className="text-[#31563D]">Your care should be too.</em>
+            </motion.h1>
 
-          <motion.p
-            variants={loadChild}
-            custom={2}
-            className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-muted-foreground"
-          >
-            Personalized Ayurvedic consultation with Dr. Anusree Leela, BAMS,
-            at Leelajani Ayur Care in Kowdiar or online.
-          </motion.p>
+            <motion.p
+              variants={loadChild}
+              custom={2}
+              className="hero-copy mt-5 max-w-[34rem] text-[1rem] leading-relaxed text-muted-foreground lg:mt-6 lg:text-[1.05rem]"
+            >
+              Personalized Ayurvedic consultation with Dr. Anusree Leela, BAMS,
+              at Leelajani Ayur Care in Kowdiar or online.
+            </motion.p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-            <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary + " w-full sm:w-auto"}>
-              Book a consultation
-            </a>
-            <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline + " w-full sm:w-auto"}>
-              <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
-              WhatsApp us
-            </a>
+            <div className="hero-actions mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 lg:mt-7">
+              <a href="#book" onClick={() => track("hero_book_click")} className={btnPrimary + " w-full sm:w-auto"}>
+                Book a consultation
+              </a>
+              <a href={WA_MAIN} target="_blank" rel="noreferrer" onClick={() => track("hero_whatsapp_click")} className={btnOutline + " w-full sm:w-auto"}>
+                <WhatsAppIcon className="h-[18px] w-[18px] text-[#25D366]" />
+                WhatsApp us
+              </a>
+            </div>
+
+            <motion.div
+              variants={loadChild}
+              custom={4}
+              className="hero-meta mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.85rem] text-muted-foreground sm:text-[0.9rem] lg:mt-6"
+            >
+              <span>Kowdiar, Trivandrum</span>
+              <span aria-hidden="true" className="h-3 w-px bg-border" />
+              <span>Online consultations available</span>
+            </motion.div>
           </div>
-
-          <motion.div
-            variants={loadChild}
-            custom={4}
-            className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.85rem] text-muted-foreground sm:text-[0.9rem]"
-          >
-            <span>Kowdiar, Trivandrum</span>
-            <span aria-hidden="true" className="h-3 w-px bg-border" />
-            <span>Online consultations available</span>
-          </motion.div>
         </motion.div>
 
-        {/* The clinic's own hero photograph, presented clean: no overlays, no frames.
-            On desktop the photo fills the viewport-height column (object-cover crop,
-            never distorted); on mobile it keeps its natural 2:3 ratio. */}
-        <div className="relative flex items-end justify-center px-6 pb-10 pt-2 sm:pb-14 lg:items-center lg:justify-end lg:py-6 lg:pl-0 lg:pr-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
+        {/* The clinic's own hero photograph — desktop: full-height cover crop inside
+            the hero bounds (never pushes the section taller); mobile: fixed 260px
+            band below the content so the CTAs stay above the fold. */}
+        <div className="relative px-5 pb-8 pt-7 sm:px-6 sm:pb-10 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-1/2 lg:px-0 lg:py-0">
           <motion.div
             style={{ y: drift }}
-            className="relative mx-auto w-full max-w-[17rem] sm:max-w-sm lg:flex lg:h-full lg:max-w-[min(100%,34rem)] lg:flex-col"
+            className="relative mx-auto w-full lg:h-full lg:max-w-none"
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: easeOut, delay: 0.2 }}
           >
-            <div className="group relative aspect-[2/3] min-h-0 w-full overflow-hidden bg-accent lg:flex-1">
+            <div className="hero-photo group relative h-[260px] w-full overflow-hidden bg-accent sm:h-[300px] lg:h-full lg:min-h-0">
               <img
                 src={HERO_IMG}
                 alt="Leelajani Ayur Care, Kowdiar, Thiruvananthapuram"
                 className="h-full w-full object-cover object-top transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]"
               />
             </div>
-            <p className="mt-4 shrink-0 text-center text-[0.9rem] leading-relaxed text-muted-foreground/80 sm:text-[0.95rem]">
+            <p className="mt-3 text-[0.85rem] leading-relaxed text-muted-foreground/80 sm:text-[0.9rem] lg:hidden">
               Leelajani Ayur Care, Kowdiar, Trivandrum.
             </p>
           </motion.div>
@@ -1296,8 +1298,9 @@ function MobileCta() {
 
 /* ================================================================== */
 /* WELCOME POPUP  (opens on load, a short while after the hero settles) */
-/* Mobile: a compact bottom sheet at roughly half the viewport height.  */
-/* Desktop/tablet: centered, as before.                                 */
+/* A compact, centred enquiry modal. On phones it sits inside the       */
+/* viewport with a 12px margin; the close button stays pinned to the    */
+/* modal frame, above any scrolling content.                            */
 /* ================================================================== */
 
 const POPUP_DELAY_MS = 2500;
@@ -1310,7 +1313,6 @@ function WelcomePopup() {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState({ name: "", location: "", phone: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [mode, setMode] = useState("At the Kowdiar clinic");
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
@@ -1330,7 +1332,7 @@ function WelcomePopup() {
     const next: Record<string, string> = {};
     if (!values.name.trim()) next.name = "Please enter your name.";
     if (!values.location.trim()) next.location = "Please enter your location.";
-    if (!PHONE_RE.test(values.phone.trim())) next.phone = "Please enter your phone number.";
+    if (!PHONE_RE.test(values.phone.trim())) next.phone = "Please enter your contact number.";
     if (!values.email.trim()) next.email = "Please enter your email address.";
     else if (!EMAIL_RE.test(values.email.trim())) next.email = "Please enter a valid email address.";
     setErrors(next);
@@ -1342,50 +1344,44 @@ function WelcomePopup() {
     if (!validate()) return;
     track("popup_form_submit");
     const lines = [
-      "Callback request",
+      "Consultation enquiry",
       "Name: " + values.name.trim(),
       "Location: " + values.location.trim(),
-      "Phone: " + values.phone.trim(),
+      "Contact number: " + values.phone.trim(),
       "Email: " + values.email.trim(),
-      "Preferred consultation: " + mode,
     ];
-    if (values.message.trim()) lines.push("Concern: " + values.message.trim());
+    if (values.message.trim()) lines.push("Message: " + values.message.trim());
     window.open(wa(lines.join("\n")), "_blank");
     setSent(true);
   };
 
   const field =
-    "w-full rounded-[3px] border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/55 outline-none transition-colors duration-300 hover:border-foreground/30 focus:border-primary";
-
+    "w-full rounded-[3px] border border-input bg-card px-4 text-sm text-foreground placeholder:text-muted-foreground/55 outline-none transition-colors duration-300 hover:border-foreground/30 focus:border-primary";
   const errorText = "mt-1 block text-[0.75rem] text-destructive";
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className="max-w-full gap-0 rounded-t-[3px] rounded-b-none border-border bg-cream p-0 sm:max-w-lg sm:rounded-[3px] sm:rounded-b-[3px]
-          top-auto bottom-0 left-0 h-auto max-h-[52dvh] w-full translate-x-0 translate-y-0
-          data-[state=open]:slide-in-from-bottom-6 data-[state=open]:zoom-in-95
-          overflow-hidden
-          sm:top-[50%] sm:bottom-auto sm:left-[50%] sm:max-h-[85vh] sm:h-auto sm:-translate-x-[50%] sm:-translate-y-[50%]
-          sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=closed]:zoom-out-95"
+        className="left-1/2 top-1/2 z-50 w-[calc(100vw-24px)] max-w-[620px] -translate-x-1/2 -translate-y-1/2 gap-0 overflow-hidden rounded-[6px] border-border bg-cream p-0 shadow-[0_24px_70px_-24px_rgba(19,46,33,0.45)]
+          data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95"
         showCloseButton
       >
         <DialogTitle className="sr-only">Request a consultation</DialogTitle>
         <DialogDescription className="sr-only">
-          Share your name and phone number and the clinic team will call you back.
+          Share your name and contact number and the clinic team will call you back.
         </DialogDescription>
 
-        <div className="max-h-[52dvh] overflow-y-auto overscroll-contain sm:max-h-[85vh]">
+        <div className="no-scrollbar max-h-[calc(100dvh-56px)] overflow-y-auto overscroll-contain sm:max-h-[calc(100dvh-80px)]">
           {sent ? (
-            <div className="p-6 text-center sm:p-10">
-              <p className="font-display text-2xl text-foreground">
+            <div className="p-6 text-center sm:p-8">
+              <p className="font-display text-[1.4rem] text-foreground sm:text-[1.6rem]">
                 Thank you. Your request has been received.
               </p>
-              <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-muted-foreground">
+              <p className="mx-auto mt-2.5 max-w-sm text-[0.88rem] leading-relaxed text-muted-foreground">
                 Our team will call you back to confirm your slot. You can also
                 continue on WhatsApp right away.
               </p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
                 <a
                   href={WA_MAIN}
                   target="_blank"
@@ -1402,118 +1398,82 @@ function WelcomePopup() {
               </div>
             </div>
           ) : (
-            <div className="p-6 sm:p-10">
+            <div className="p-5 sm:p-7">
               <p className="eyebrow">Leelajani Ayur Care</p>
-              <p className="font-display mt-2 text-[1.4rem] leading-tight text-foreground sm:mt-3 sm:text-[clamp(1.6rem,3vw,2.1rem)]">
+              <p className="font-display mt-1.5 text-[1.3rem] leading-tight text-foreground sm:mt-2 sm:text-[1.6rem]">
                 Thinking about a consultation?
               </p>
-              <p className="mt-2 text-[0.88rem] leading-relaxed text-muted-foreground sm:mt-3 sm:text-[0.92rem]">
-                Leave your number and our team will call you back during clinic
-                hours. No pressure, and nothing is stored on this website.
+              <p className="mt-1.5 text-[0.84rem] leading-relaxed text-muted-foreground sm:mt-2 sm:text-[0.88rem]">
+                Leave your details and our team will call you back during
+                clinic hours. Nothing is stored on this website.
               </p>
 
-              <form onSubmit={submit} className="mt-4 space-y-4 sm:mt-7" noValidate>
-                <label className="block">
-                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                    Your name
-                  </span>
-                  <input
-                    type="text"
-                    value={values.name}
-                    onChange={(e) => set("name", e.target.value)}
-                    placeholder="e.g. Rahul Sharma"
-                    aria-invalid={!!errors.name}
-                    className={field + " mt-1.5"}
-                  />
-                  {errors.name && <span className={errorText}>{errors.name}</span>}
-                </label>
-
-                <div className="grid gap-4 sm:grid-cols-2">
+              <form onSubmit={submit} className="mt-4 space-y-3 sm:mt-6 sm:space-y-3.5" noValidate>
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
                   <label className="block">
-                    <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                      Location
-                    </span>
+                    <span className="popup-label">Name *</span>
+                    <input
+                      type="text"
+                      value={values.name}
+                      onChange={(e) => set("name", e.target.value)}
+                      placeholder="e.g. Rahul Sharma"
+                      aria-invalid={!!errors.name}
+                      className={field + " popup-field mt-1.5"}
+                    />
+                    {errors.name && <span className={errorText}>{errors.name}</span>}
+                  </label>
+                  <label className="block">
+                    <span className="popup-label">Location *</span>
                     <input
                       type="text"
                       value={values.location}
                       onChange={(e) => set("location", e.target.value)}
                       placeholder="e.g. Trivandrum"
                       aria-invalid={!!errors.location}
-                      className={field + " mt-1.5"}
+                      className={field + " popup-field mt-1.5"}
                     />
                     {errors.location && <span className={errorText}>{errors.location}</span>}
                   </label>
                   <label className="block">
-                    <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                      Phone or WhatsApp number
-                    </span>
+                    <span className="popup-label">Contact number *</span>
                     <input
                       type="tel"
                       value={values.phone}
                       onChange={(e) => set("phone", e.target.value)}
                       placeholder="e.g. +91 98470 12345"
                       aria-invalid={!!errors.phone}
-                      className={field + " mt-1.5"}
+                      className={field + " popup-field mt-1.5"}
                     />
                     {errors.phone && <span className={errorText}>{errors.phone}</span>}
+                  </label>
+                  <label className="block">
+                    <span className="popup-label">Email *</span>
+                    <input
+                      type="email"
+                      value={values.email}
+                      onChange={(e) => set("email", e.target.value)}
+                      placeholder="e.g. you@example.com"
+                      aria-invalid={!!errors.email}
+                      className={field + " popup-field mt-1.5"}
+                    />
+                    {errors.email && <span className={errorText}>{errors.email}</span>}
                   </label>
                 </div>
 
                 <label className="block">
-                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                    Email
-                  </span>
-                  <input
-                    type="email"
-                    value={values.email}
-                    onChange={(e) => set("email", e.target.value)}
-                    placeholder="e.g. you@example.com"
-                    aria-invalid={!!errors.email}
-                    className={field + " mt-1.5"}
-                  />
-                  {errors.email && <span className={errorText}>{errors.email}</span>}
-                </label>
-
-                <label className="block">
-                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                    Your concern (optional)
-                  </span>
+                  <span className="popup-label">Message</span>
                   <textarea
-                    rows={2}
+                    rows={3}
                     value={values.message}
                     onChange={(e) => set("message", e.target.value)}
-                    placeholder="e.g. Psoriasis for the last two years"
-                    className={field + " mt-1.5 resize-none"}
+                    placeholder="e.g. Psoriasis for the last two years (optional)"
+                    className={field + " mt-1.5 min-h-[80px] py-2.5 resize-none"}
                   />
                 </label>
 
-                <fieldset>
-                  <legend className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-foreground">
-                    Preferred consultation
-                  </legend>
-                  <div className="mt-2 grid grid-cols-2 gap-3">
-                    {["At the Kowdiar clinic", "Online"].map((m) => (
-                      <button
-                        key={m}
-                        type="button"
-                        onClick={() => setMode(m)}
-                        aria-pressed={mode === m}
-                        className={
-                          "rounded-[3px] border px-4 py-2.5 text-[0.85rem] transition-colors duration-300 " +
-                          (mode === m
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-input bg-card text-foreground hover:border-foreground/40")
-                        }
-                      >
-                        {m}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-
-                <div className="flex flex-col gap-3 pt-1 sm:flex-row">
+                <div className="flex flex-col gap-3 pt-0.5 sm:flex-row">
                   <button type="submit" className={btnPrimary + " flex-1"}>
-                    Request a callback
+                    Book a consultation
                   </button>
                   <a
                     href={WA_MAIN}
@@ -1527,7 +1487,7 @@ function WelcomePopup() {
                   </a>
                 </div>
 
-                <p className="pt-1 text-center text-[0.75rem] leading-relaxed text-muted-foreground">
+                <p className="pt-0.5 text-center text-[0.74rem] leading-relaxed text-muted-foreground">
                   We reply during clinic hours, Monday to Saturday, 7 AM to 7 PM.
                 </p>
               </form>
